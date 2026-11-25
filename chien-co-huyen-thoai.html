@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Chiến Cơ Huyền Thoại – Ông tổ của dòng game bắn máy bay. Tượng đài trở lại, tái chiến dải Ngân Hà!">
+  <meta name="Keywords" content="Chiến Cơ Huyền Thoại, Lôi Đình Chiến Cơ, Lôi Đình Chiến Cơ Tập Kết, game bắn máy bay, ông tổ game bắn máy bay, game kinh điển, Bình Minh Trí Tuệ, Lia, Lãnh Chúa Băng Hà, Đấu Trường Ác Nhân, Thương Nhân Liên Sao, Đột Kích Bóng Tối, Tro Tàn Ngân Hà, Blade, Thần Ma Dị Hình, Natalie, Kẻ Đoạt Quyền, Thần Phong Đêm Tối, Lisa, Mirna, Roy, Thần Hera, Nguyên Chủng Vũ Trụ, Chiến Tướng Tự Do, Ma Thần Luyện Ngục, WeChat Mini Program, Ái Lạc Du">
+  <link rel="icon" href="favicon.ico">
   <title>Chiến Cơ Huyền Thoại</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,800;1,800;1,900&family=Chakra+Petch:wght@700&display=swap">
@@ -20,8 +22,7 @@
       recalc();
     })(document, window);
 
-    // Ảnh và liên kết lấy từ trang gốc
-    var BASE = 'https://ltzj.hn5agame.com/';
+    // Liên kết tải game lấy từ trang gốc (ảnh đã được tải về thư mục img/)
     var LINKS = {
       android: 'https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&touchpoint_type=click',
       apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click',
@@ -30,33 +31,55 @@
     };
     var VERSION = '1.30.5';
 
-    function isApple() { return /iphone|ipad|ipod|macintosh/i.test(navigator.userAgent); }
-    function isHarmony() { return /harmonyos|openharmony/i.test(navigator.userAgent); }
+    function isWeChat() { return /MicroMessenger/i.test(navigator.userAgent) || typeof window.weixinBridge !== 'undefined'; }
+    function isHarmony() { return /harmonyos|openharmony/i.test(navigator.userAgent || ''); }
+    function isApple() {
+      var d = navigator.userAgentData;
+      if (d && typeof d.platform === 'string' && /^(ios|macos)$/i.test(d.platform)) return true;
+      var ua = (navigator.userAgent || '').toLowerCase(), pf = (navigator.platform || '').toLowerCase();
+      return /iphone|ipad|ipod/.test(ua) || /iphone|ipad|ipod/.test(pf) || /macintosh/.test(ua) || /macintel/.test(pf);
+    }
+    function isAndroid() { return !isApple() && !isHarmony() && /android/i.test(navigator.userAgent || ''); }
 
     function init() {
       document.getElementById('vercode').textContent = VERSION;
-      // Trên điện thoại chỉ hiện nút tải đúng hệ điều hành
-      var m = document.querySelectorAll('.download_m [data-os]');
-      var os = isHarmony() ? 'harmony' : (isApple() ? 'apple' : 'android');
-      m.forEach(function (el) {
+      var os = isHarmony() ? 'harmony' : (isAndroid() ? 'android' : (isApple() ? 'apple' : 'other'));
+      // Điện thoại: chỉ hiện nút tải đúng hệ điều hành (+ TapTap); HarmonyOS hiện thêm nút Android
+      document.querySelectorAll('.download_m [data-os]').forEach(function (el) {
         var o = el.getAttribute('data-os');
-        el.style.display = (o === os || o === 'tap' || (os === 'harmony' && o === 'android')) ? '' : 'none';
+        var show = o === 'tap' || o === os || (os === 'harmony' && o === 'android') || (os === 'other' && o === 'android');
+        el.style.display = show ? '' : 'none';
       });
+      // Máy tính (như bản gốc): Android ẩn App Store + HarmonyOS; Mac ẩn Android + HarmonyOS; HarmonyOS ẩn App Store; Windows hiện đủ 4 nút
+      var hide = { android: ['apple', 'harmony'], apple: ['android', 'harmony'], harmony: ['apple'], other: [] }[os];
+      hide.forEach(function (o) { var el = document.querySelector('.btn_grid [data-os="' + o + '"]'); if (el) el.style.display = 'none'; });
     }
-    function showPublic() {
-      document.getElementById(window.innerWidth > 1024 ? 'public_con' : 'public_con_m').style.display = 'block';
+    // Trong WeChat không tải được trực tiếp → hiện màn hướng dẫn mở bằng trình duyệt (như bản gốc)
+    function openDownload(url) {
+      if (isWeChat()) { document.getElementById('download_con').style.display = 'block'; }
+      else { window.open(url); }
     }
-    function hidePublic(id) { document.getElementById(id).style.display = 'none'; }
+    // Ô mã QR WeChat: máy tính hiện khi rê chuột; điện thoại chạm để bật/tắt (cùng một ô nhỏ cạnh nút, không che màn hình)
+    function showPublic() { document.getElementById('public_con').style.display = 'block'; }
+    function hidePublic() { document.getElementById('public_con').style.display = 'none'; }
+    // chạm vào nút WeChat → mở (chạm lại hoặc chạm chỗ khác → đóng nhờ trình nghe click trên document)
+    function togglePublic(e) { e.stopPropagation(); showPublic(); }
+    document.addEventListener('click', function () { var el = document.getElementById('public_con'); if (el) el.style.display = 'none'; });
   </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #000; }
     a { text-decoration: none; }
+    .disclaimer {
+      position: relative; z-index: 200; padding: 6px 12px; text-align: center; line-height: 1.45;
+      background: #ffcc33; color: #2a1d00; font-size: 13px; font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    .disclaimer b { font-weight: 800; }
 
     #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(https://ltzj.hn5agame.com/img/pc_bg.jpg) center top / contain no-repeat;
+      background: url(img/pc_bg-vi.jpg) center top / contain no-repeat;
       position: relative; width: 100%; aspect-ratio: 16 / 9;
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
@@ -139,7 +162,7 @@
     /* Phần dưới của cover.png (từ dải băng y=185 trở xuống): giữ nguyên khung và hiệu ứng gốc */
     .cv_panel {
       position: relative; margin-top: 10px; width: 900px; height: 293px;
-      background: url(https://ltzj.hn5agame.com/img/cover.png) 0 -185px no-repeat;
+      background: url(img/cover.png) 0 -185px no-repeat;
       font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
     }
     /* miếng vá: che chữ Trung bằng màu nền tương ứng, mép mờ dần, rồi viết chữ Việt lên */
@@ -171,10 +194,10 @@
     .dl2 .patch { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
                           mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
     .dl2:hover { transform: translateY(-2px); filter: brightness(1.15); }
-    .dl2.android { background-image: url(https://ltzj.hn5agame.com/img/android.png); }
-    .dl2.apple   { background-image: url(https://ltzj.hn5agame.com/img/appstore.png); }
-    .dl2.tap     { background-image: url(https://ltzj.hn5agame.com/img/download_t.png); }
-    .dl2.harmony { background-image: url(https://ltzj.hn5agame.com/img/harmony.png); }
+    .dl2.android { background-image: url(img/android.png); }
+    .dl2.apple   { background-image: url(img/appstore.png); }
+    .dl2.tap     { background-image: url(img/download_t.png); }
+    .dl2.harmony { background-image: url(img/harmony.png); }
     .dl2 .patch span { font-size: inherit; }
     /* vị trí miếng che theo % của nút 265×78 */
     .dl2.android .patch { left: 38.87%; top: 26.92%; width: 43.77%; height: 48.72%; font-size: 18em;
@@ -214,6 +237,28 @@
     .right_share .item:hover .label { opacity: 1; }
 
     .public_con { position: absolute; z-index: 98; right: 96px; top: 65%; transform: translateY(-50%); display: none; }
+    .public_con img { display: block; width: 211px; }
+
+    /* Màn hướng dẫn trong WeChat (img/download-vi.jpg 1080×1920): che chữ Trung, viết chữ Việt – vị trí theo % ảnh */
+    .download_con {
+      position: absolute; z-index: 99; inset: 0; display: none; cursor: pointer;
+      background: url(img/download-vi.jpg) center top / 100% 100% no-repeat;
+      container-type: inline-size; font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+    }
+    .download_con .patch { flex-direction: column; text-align: center; white-space: normal; line-height: 1.2; }
+    .wx_logo_bg { left: 26%; top: 0; width: 48%; height: 11.6%; background: #10276f;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 74%) !important;
+              mask-image: radial-gradient(ellipse at center, #000 58%, transparent 74%) !important; }
+    .wx_logo { position: absolute; left: 50%; top: 1.3%; width: 40%; transform: translateX(-50%); }
+    .wx_h  { left: 19.5%; top: 12%; width: 59%; height: 4.4%; background: #141a4c; color: #fff; font-size: 4cqw; font-weight: 900; white-space: nowrap !important;
+      font-style: italic; text-shadow: 0 .06em 0 #1e5fd0, 0 0 .25em rgba(60, 160, 255, .8); }
+    .wx_s1 { left: 21%; top: 16.6%; width: 51%; height: 3.8%; background: #0b1040; color: #fff; font-size: 2.7cqw; font-weight: 700; white-space: nowrap !important; }
+    .wx_s2a { left: 21.5%; top: 20.3%; width: 14%; height: 3.4%; background: #0d0b3d; color: #fff; font-size: 3cqw; font-weight: 700; white-space: nowrap !important; }
+    .wx_s2b { left: 42.5%; top: 20.3%; width: 30%; height: 3.4%; background: #121640; color: #fff; font-size: 3cqw; font-weight: 700; white-space: nowrap !important; }
+    .wx_mag { left: 14.5%; top: 42.2%; width: 16.5%; height: 4.6%; background: #fff; color: #666; font-size: 2cqw; }
+    .wx_b  { top: 60.3%; height: 3.9%; background: #f7f7f7; color: #666; font-size: 1.8cqw; }
+    .wx_b1 { left: 20.3%; width: 13.5%; } .wx_b2 { left: 35.6%; width: 13.5%; } .wx_b3 { left: 51.5%; width: 12%; } .wx_b4 { left: 65.8%; width: 13.5%; }
+    .wx_tip { position: absolute; left: 0; right: 0; bottom: 2.5%; text-align: center; color: rgba(255, 255, 255, .8); font-size: 3cqw; text-shadow: 0 1px 2px #000; }
 
     /* Chân trang */
     .footer {
@@ -229,7 +274,7 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(https://ltzj.hn5agame.com/img/pc_bg.jpg); background-size: auto 100%; background-position: center top; aspect-ratio: 9 / 16; }
+      .main { background-image: url(img/pc_bg-vi.jpg); background-size: auto 100%; background-position: center top; aspect-ratio: 9 / 16; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
@@ -259,7 +304,7 @@
       /* dải băng gốc lấy từ cover.png (x 130–770, y 185–265), phóng theo bề rộng màn hình */
       .rib_m {
         position: relative; width: 70cqw; aspect-ratio: 640 / 80; margin-top: 1.2cqw;
-        background: url(https://ltzj.hn5agame.com/img/cover.png) 50% 46.48% / 140.625% auto no-repeat;
+        background: url(img/cover.png) 50% 46.48% / 140.625% auto no-repeat;
       }
       .rib_m .patch {
         left: 10.6%; top: 15%; width: 78.2%; height: 50%; font-size: 1.75cqw;
@@ -292,17 +337,15 @@
         display: flex; justify-content: center; gap: 3cqw;
       }
 
-      .public_con_m {
-        position: absolute; z-index: 99; inset: 0; background: rgba(0,0,0,.9);
-        display: none; text-align: center;
-      }
-      .public_con_m img.qr_m { padding-top: 3rem; width: 5rem; }
-      .public_con_m .close { width: .5rem; vertical-align: top; padding-top: 2.5rem; cursor: pointer; }
-      .public_con_m p { color: #fff; font-size: .3rem; margin-top: .2rem; }
+      /* ô mã QR nhỏ cạnh thanh mạng xã hội, giống bản máy tính (không che toàn màn hình) */
+      .public_con { right: calc(.9rem + 2cqw); top: 46%; transform: translateY(-50%); }
+      .public_con img { width: 38cqw; }
     }
   </style>
 </head>
 <body onload="init()">
+  <!-- Dải cảnh báo: trang công khai trên GitHub Pages, không phải trang chính thức -->
+  <div class="disclaimer">⚠ Bản dịch thử tiếng Việt – <b>KHÔNG phải trang chính thức</b> của game. Tên, logo, hình ảnh thuộc chủ sở hữu tương ứng.</div>
   <div id="app">
     <div class="main">
       <!-- Nhãn độ tuổi CADPA 12+ -->
@@ -314,7 +357,7 @@
 
       <!-- Logo tiếng Việt (đè lên logo 官方正版 / 雷霆战机 trong ảnh nền) -->
       <div class="logo_vi">
-        <div class="ban" aria-hidden="true"><span class="b">BẢN CHÍNH THỨC</span><span class="m">BẢN CHÍNH THỨC</span><span class="f">BẢN CHÍNH THỨC</span></div>
+        <div class="ban" aria-hidden="true"><span class="b">BẢN VIỆT HOÁ</span><span class="m">BẢN VIỆT HOÁ</span><span class="f">BẢN VIỆT HOÁ</span></div>
         <!-- ?v=2: buộc trình duyệt tải lại ảnh đã xoá vệt trắng ở mép dưới -->
         <img src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại – Bản chính thức">
       </div>
@@ -328,10 +371,10 @@
 
       <!-- Nút tải trên điện thoại -->
       <div class="download_m hidden_pc">
-        <a class="dl2 android" data-os="android" title="Tải cho Android" href="#" onclick="window.open(LINKS.android);return false"><span class="patch">Tải Android</span></a>
-        <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" href="#" onclick="window.open(LINKS.harmony);return false" style="display:none"><span class="patch">Tải HarmonyOS</span></a>
-        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#" onclick="window.open(LINKS.apple);return false" style="display:none"><span class="patch">Tải về</span></a>
-        <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" href="#" onclick="window.open(LINKS.tap);return false"><span class="patch">Tải về</span></a>
+        <a class="dl2 android" data-os="android" title="Tải cho Android" href="#" onclick="openDownload(LINKS.android);return false"><span class="patch">Tải Android</span></a>
+        <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" href="#" onclick="openDownload(LINKS.harmony);return false" style="display:none"><span class="patch">Tải HarmonyOS</span></a>
+        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#" onclick="openDownload(LINKS.apple);return false" style="display:none"><span class="patch">Tải về</span></a>
+        <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" href="#" onclick="openDownload(LINKS.tap);return false"><span class="patch">Tải về</span></a>
       </div>
 
       <!-- Khu vực tải trên máy tính -->
@@ -345,35 +388,49 @@
           <div class="patch cv_caption">Quét mã tải game</div>
         <div class="btn_grid">
           <!-- 安卓下载 / TapTap下载 / App Store下载 / 鸿蒙下载 -->
-          <a class="dl2 android" title="Tải cho Android" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải Android</span></a>
-          <a class="dl2 tap" title="Tải qua TapTap" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
-          <a class="dl2 apple" title="Tải trên App Store" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
-          <a class="dl2 harmony" title="Tải cho HarmonyOS" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải HarmonyOS</span></a>
+          <a class="dl2 android" data-os="android" title="Tải cho Android" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải Android</span></a>
+          <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
+          <a class="dl2 apple" data-os="apple" title="Tải trên App Store" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
+          <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải HarmonyOS</span></a>
         </div>
         </div>
       </div>
 
       <!-- Mạng xã hội -->
       <div class="right_share">
-        <a class="item" target="_blank" href="https://www.taptap.cn/app/6987"><img src="https://ltzj.hn5agame.com/img/taptap.png" alt="TapTap"><span class="label">TapTap</span></a>
-        <a class="item" target="_blank" href="https://www.douyin.com/user/MS4wLjABAAAAOXvTQ2oUQ8x4JWNjisWQuLe6vYZVG-A2NzSJ9A-J1aQRfTRNRZDBW6fmPEjGEaIQ?from_tab_name=main"><img src="https://ltzj.hn5agame.com/img/douyin.png" alt="Douyin"><span class="label">Douyin (TikTok Trung Quốc)</span></a>
-        <a class="item" target="_blank" href="https://space.bilibili.com/3546702812285350"><img src="https://ltzj.hn5agame.com/img/bilibili.png" alt="Bilibili"><span class="label">Bilibili</span></a>
-        <div class="item" onmouseover="showPublic()" onmouseout="hidePublic('public_con')" onclick="showPublic()"><img src="https://ltzj.hn5agame.com/img/wechat.png" alt="Tài khoản WeChat chính thức"><span class="label">Tài khoản WeChat chính thức</span></div>
-        <a class="item" target="_blank" href="https://hnalywhfzyxgs.qiyukf.com/client?k=a33a3eb916450414cfae9e72f245fad4&amp;wp=1&amp;robotShuntSwitch=0&amp;shuntId=0&amp;language=zh-cn&amp;templateId=6686040"><img src="https://ltzj.hn5agame.com/img/service.png" alt="Chăm sóc khách hàng"><span class="label">Chăm sóc khách hàng</span></a>
+        <a class="item" target="_blank" href="https://www.taptap.cn/app/6987"><img src="img/taptap.png" alt="TapTap"><span class="label">TapTap</span></a>
+        <a class="item" target="_blank" href="https://www.douyin.com/user/MS4wLjABAAAAOXvTQ2oUQ8x4JWNjisWQuLe6vYZVG-A2NzSJ9A-J1aQRfTRNRZDBW6fmPEjGEaIQ?from_tab_name=main"><img src="img/douyin.png" alt="Douyin"><span class="label">Douyin (TikTok Trung Quốc)</span></a>
+        <a class="item" target="_blank" href="https://space.bilibili.com/3546702812285350"><img src="img/bilibili.png" alt="Bilibili"><span class="label">Bilibili</span></a>
+        <div class="item" onmouseover="showPublic()" onmouseout="hidePublic()" onclick="togglePublic(event)"><img src="img/wechat.png" alt="Tài khoản WeChat chính thức"><span class="label">Tài khoản WeChat chính thức</span></div>
+        <a class="item" target="_blank" href="https://hnalywhfzyxgs.qiyukf.com/client?k=a33a3eb916450414cfae9e72f245fad4&amp;wp=1&amp;robotShuntSwitch=0&amp;shuntId=0&amp;language=zh-cn&amp;templateId=6686040"><img src="img/service.png" alt="Chăm sóc khách hàng"><span class="label">Chăm sóc khách hàng</span></a>
       </div>
 
-      <div class="public_con" id="public_con"><img src="https://ltzj.hn5agame.com/img/public.png" alt="Tài khoản WeChat chính thức"></div>
-      <div class="public_con_m hidden_pc" id="public_con_m">
-        <img class="qr_m" src="https://ltzj.hn5agame.com/img/public_m.png" alt="Tài khoản WeChat chính thức"><img class="close" src="https://ltzj.hn5agame.com/img/close.png" alt="Đóng" onclick="hidePublic('public_con_m')">
-        <p>Quét mã để theo dõi tài khoản WeChat chính thức</p>
+      <!-- img/public-vi.png: ảnh public.png gốc đã viết chữ Việt trực tiếp vào ảnh (thay 官方公众号 / 扫描立即关注) -->
+      <div class="public_con" id="public_con" onclick="event.stopPropagation()">
+        <img src="img/public-vi.png" alt="Tài khoản WeChat chính thức – Quét mã để theo dõi ngay">
+      </div>
+
+      <!-- Màn hướng dẫn khi mở trang trong WeChat (bản gốc: img/download-vi.jpg) – chạm để đóng -->
+      <div class="download_con hidden_pc" id="download_con" onclick="this.style.display='none'">
+        <img class="wx_logo" src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại">
+        <div class="patch wx_h">2 BƯỚC BAY VÀO VŨ TRỤ</div>
+        <div class="patch wx_s1">1. Nhấn menu ở góc trên bên phải</div>
+        <div class="patch wx_s2a">2. Chọn</div>
+        <div class="patch wx_s2b">Mở bằng trình duyệt</div>
+        <div class="patch wx_mag">Mở bằng trình duyệt</div>
+        <div class="patch wx_b wx_b1">Gửi cho bạn bè</div>
+        <div class="patch wx_b wx_b2">Chia sẻ Khoảnh khắc</div>
+        <div class="patch wx_b wx_b3">Yêu thích</div>
+        <div class="patch wx_b wx_b4">Mở bằng trình duyệt</div>
+        <div class="wx_tip">Chạm vào màn hình để quay lại</div>
       </div>
     </div>
 
     <div class="footer">
-      <div>Tên ứng dụng: Lôi Đình Chiến Cơ: Tập Kết ｜ Nhà phát triển: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam</div>
+      <div><b>Bản dịch thử tiếng Việt, không chính thức</b> của trang giới thiệu game 雷霆战机：集结 (Lôi Đình Chiến Cơ: Tập Kết).</div>
       <div>Phiên bản: <span id="vercode">1.30.5</span> ｜ <a href="privacy-vi.html" target="_blank">Chính sách bảo mật</a> ｜ <a href="sdk-vi.html" target="_blank">Quyền ứng dụng</a></div>
-      <div>Số phê duyệt xuất bản: Quốc Tân Xuất Thẩm (2024) số 854 ｜ Đăng ký ICP: Quỳnh ICP 17000129-26A ｜ ISBN 978-7-498-13452-3 ｜ Giấy phép kinh doanh: Quỳnh B2-20170022</div>
-      <div>Tên công ty: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam ｜ Địa chỉ: Phòng 807, Toà nhà Kim Thái Phú Địa, đường Tây An Ninh Trang, quận Hải Điến, Bắc Kinh ｜ Liên hệ: aly5agame666@163.com</div>
+      <div>Trang này không thuộc và không do nhà phát hành game vận hành. Tên game, logo, hình ảnh và nội dung gốc thuộc về chủ sở hữu tương ứng.</div>
+      <div>Trang gốc: <a href="https://ltzj.hn5agame.com/" target="_blank" rel="noopener">ltzj.hn5agame.com</a> ｜ Nút tải game dẫn tới liên kết tải chính thức của trang gốc.</div>
       <div>Giới thiệu: “Lôi Đình Chiến Cơ: Tập Kết” – ông tổ của dòng game bắn máy bay. Tượng đài trở lại, tái chiến dải Ngân Hà!</div>
     </div>
   </div>
