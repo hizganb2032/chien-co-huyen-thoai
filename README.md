@@ -1,8 +1,10 @@
-# Chiến Cơ Huyền Thoại – trang giới thiệu tiếng Việt
+# Chiến Cơ Huyền Thoại – bản Việt hoá trang giới thiệu
 
-Trang giới thiệu tiếng Việt của game Chiến Cơ Huyền Thoại, Việt hoá từ trang 雷霆战机：集结 (https://ltzj.hn5agame.com/).
+Bản dịch thử sang tiếng Việt của trang giới thiệu game 雷霆战机：集结 (https://ltzj.hn5agame.com/).
 
-Xem trực tiếp: https://hizganb2032.github.io/chien-co-huyen-thoai/
+> **Lưu ý:** đây **không phải** trang chính thức của game hay của nhà phát hành.
+> Tên, logo, hình ảnh, giấy phép và thông tin công ty trong trang thuộc về chủ sở hữu tương ứng.
+> Kho này chỉ dùng để thử nghiệm Việt hoá, không dùng để phát hành hay thu thập thông tin người dùng.
 
 ## Các file
 
