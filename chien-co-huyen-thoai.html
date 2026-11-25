@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Chiến Cơ Huyền Thoại – Ông tổ của dòng game bắn máy bay. Tượng đài trở lại, tái chiến dải Ngân Hà!">
+  <title>Chiến Cơ Huyền Thoại</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,800;1,800;1,900&family=Chakra+Petch:wght@700&display=swap">
+  <script>
+    // Co giãn đơn vị rem theo kích thước màn hình (giống trang gốc)
+    (function (doc, win) {
+      var docEl = doc.documentElement;
+      function recalc() {
+        var w = docEl.clientWidth > docEl.clientHeight ? docEl.clientHeight : docEl.clientWidth;
+        if (!w) return;
+        docEl.style.fontSize = Math.floor(100 * (w / 750)) + 'px';
+      }
+      win.addEventListener('orientationchange' in win ? 'orientationchange' : 'resize', recalc, false);
+      recalc();
+    })(document, window);
+
+    // Ảnh và liên kết lấy từ trang gốc
+    var BASE = 'https://ltzj.hn5agame.com/';
+    var LINKS = {
+      android: 'https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&touchpoint_type=click',
+      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click',
+      tap:     'https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&touchpoint_type=click',
+      harmony: 'https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&touchpoint_type=click'
+    };
+    var VERSION = '1.30.5';
+
+    function isApple() { return /iphone|ipad|ipod|macintosh/i.test(navigator.userAgent); }
+    function isHarmony() { return /harmonyos|openharmony/i.test(navigator.userAgent); }
+
+    function init() {
+      document.getElementById('vercode').textContent = VERSION;
+      // Trên điện thoại chỉ hiện nút tải đúng hệ điều hành
+      var m = document.querySelectorAll('.download_m [data-os]');
+      var os = isHarmony() ? 'harmony' : (isApple() ? 'apple' : 'android');
+      m.forEach(function (el) {
+        var o = el.getAttribute('data-os');
+        el.style.display = (o === os || o === 'tap' || (os === 'harmony' && o === 'android')) ? '' : 'none';
+      });
+    }
+    function showPublic() {
+      document.getElementById(window.innerWidth > 1024 ? 'public_con' : 'public_con_m').style.display = 'block';
+    }
+    function hidePublic(id) { document.getElementById(id).style.display = 'none'; }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #000; }
+    a { text-decoration: none; }
+
+    #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
+
+    .main {
+      background: url(https://ltzj.hn5agame.com/img/pc_bg.jpg) center top / contain no-repeat;
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      display: flex; justify-content: center; align-items: center; overflow: hidden;
+    }
+
+    .main { container-type: inline-size; }
+
+    /* Logo tiếng Việt đè lên logo chữ Trung trong ảnh nền */
+    .logo_vi {
+      /* ảnh logo img/logo.png (477×174, đã tách nền đen) – đặt đè lên logo gốc trong pc_bg.jpg (x 42.6–57.2%, y 1.4–10.2%) */
+      position: absolute; z-index: 5; pointer-events: none;
+      /* cùng kích cỡ và tâm với logo gốc (rộng ~14.6%, tâm x 49.9%) */
+      left: 49.9%; top: .15%; width: 15.8%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    /* Dòng “BẢN CHÍNH THỨC” theo kiểu chữ 官方正版 gốc: chữ nghiêng xanh, viền trắng, viền ngoài xanh đậm */
+    .logo_vi .ban {
+      position: relative; z-index: 1; margin-bottom: -.12cqw;
+      font-family: "Be Vietnam Pro", "Segoe UI Black", sans-serif; font-weight: 900; font-style: italic;
+      font-size: .8cqw; letter-spacing: .06em; line-height: 1.1; white-space: nowrap;
+    }
+    .logo_vi .ban span { display: block; padding: .32em .25em .12em; }
+    .logo_vi .ban .m, .logo_vi .ban .f { position: absolute; inset: 0; }
+    .logo_vi .ban .b { color: #0a1a45; -webkit-text-stroke: .32em #0a1a45;
+      filter: drop-shadow(0 .08em 0 #030a1c) drop-shadow(0 0 .25em rgba(60, 170, 255, .7)); }
+    .logo_vi .ban .m { color: transparent; -webkit-text-stroke: .14em #ffffff; }
+    .logo_vi .ban .f { color: transparent;
+      background: linear-gradient(180deg, #d6f3ff 0%, #6cc6ff 40%, #1f74e8 58%, #3b98f5 75%, #8fdcff 100%);
+      -webkit-background-clip: text; background-clip: text; }
+    .logo_vi img {
+      display: block; width: 100%; height: auto;
+      filter: drop-shadow(0 0 .25cqw rgba(0, 8, 30, .9)) drop-shadow(0 .2cqw .5cqw rgba(0, 10, 40, .5));
+    }
+
+    /* Nhãn độ tuổi CADPA 12+ (dựng lại bằng HTML) */
+    .age {
+      position: absolute; left: 14%; top: 1rem; width: 72px; z-index: 6;
+      background: #fff; border-radius: 9px; padding: 3px; text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .35); font-family: Arial, sans-serif;
+    }
+    .age .num { background: #1f63b5; color: #fff; font-size: 26px; font-weight: 700; line-height: 1.25; border-radius: 6px 6px 0 0; }
+    .age .num sup { font-size: .6em; vertical-align: .55em; margin-left: 1px; }
+    .age .org { color: #1f63b5; font-size: 12px; font-weight: 700; letter-spacing: .5px; line-height: 1.5; }
+    .age .tip { background: #1f63b5; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 1.7; border-radius: 0 0 6px 6px; white-space: nowrap; }
+
+    /* Khu vực tải game (máy tính) – dựng lại từ cover.png (900×478):
+       phần chữ Trung phía trên làm lại bằng HTML, chỉ giữ khung QR (y 262 → 478) của ảnh gốc */
+    .main_btns {
+      position: absolute; bottom: 0.7rem; left: 50%; transform: translateX(-50%);
+      width: 900px; display: flex; flex-direction: column; align-items: center;
+    }
+    .cv_title {
+      display: flex; align-items: flex-end; gap: 10px; line-height: 1;
+      font-family: "Be Vietnam Pro", "Segoe UI Black", "Arial Black", sans-serif; font-style: italic; font-weight: 900;
+    }
+    .cv_title .big, .cv_title .nd {
+      background: linear-gradient(180deg, #fff6dc 0%, #f3d28d 40%, #b98a3e 58%, #f6e0a8 78%, #9c6d2b 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-stroke: 1.5px #3a2a10;
+      filter: drop-shadow(0 3px 0 #1d1405) drop-shadow(0 0 10px rgba(255, 210, 120, .45));
+      /* đệm để dấu chồng (Ễ, Ỷ) và dấu nặng (Ệ) nằm trong vùng được tô màu vàng */
+      padding: .34em .12em .18em .04em; margin: -.34em -.12em -.18em -.04em;
+    }
+    .cv_title .big { font-size: 62px; letter-spacing: 1px; }
+    .cv_title .nd { font-size: 96px; }
+    .cv_title .nd sup { font-size: .42em; vertical-align: baseline; }
+    .cv_sub {
+      margin-top: 6px; font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; font-weight: 800; font-style: italic;
+      font-size: 27px; color: #f7e6bf; letter-spacing: 1px;
+      text-shadow: 0 2px 0 #3a2a10, 0 0 8px rgba(0, 0, 0, .6);
+    }
+    .cv_ribbon {
+      margin-top: 16px; width: 780px; padding: 9px 0; text-align: center; color: #fff; white-space: nowrap;
+      font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; font-weight: 800; font-size: 19px;
+      background: linear-gradient(180deg, rgba(24, 77, 165, .96), rgba(20, 60, 140, .85));
+      border: 2px solid #5fc3ff; border-radius: 6px;
+      box-shadow: 0 0 14px rgba(70, 180, 255, .7), inset 0 0 12px rgba(120, 210, 255, .35);
+      clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%);
+    }
+    .cv_ribbon .arr { color: #8fe0ff; letter-spacing: -2px; margin: 0 10px; }
+    /* Phần dưới của cover.png (từ dải băng y=185 trở xuống): giữ nguyên khung và hiệu ứng gốc */
+    .cv_panel {
+      position: relative; margin-top: 10px; width: 900px; height: 293px;
+      background: url(https://ltzj.hn5agame.com/img/cover.png) 0 -185px no-repeat;
+      font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+    }
+    /* miếng vá: che chữ Trung bằng màu nền tương ứng, mép mờ dần, rồi viết chữ Việt lên */
+    .patch {
+      position: absolute; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; white-space: nowrap; letter-spacing: .01em;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9px, #000 calc(100% - 9px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 9px, #000 calc(100% - 9px), transparent 100%);
+    }
+    .cv_rib_text {
+      /* che 下载App版本，流畅不卡顿，随时稳定开局 (x 202–692, y 200–231 trong cover.png) */
+      left: 198px; top: 14px; width: 500px; height: 34px; font-size: 16px;
+      background: linear-gradient(180deg, rgba(8, 46, 110, .96), rgba(10, 54, 122, .96));
+      text-shadow: 0 0 6px rgba(90, 190, 255, .9), 0 1px 0 #02142e;
+    }
+    .cv_caption {
+      /* che chữ 扫码下载游戏 dưới mã QR */
+      left: 112px; top: 241px; width: 150px; height: 28px; font-size: 13.5px;
+      background: #1c56a5;
+    }
+    .btn_grid {
+      position: absolute; left: 318px; top: 105px;
+      display: grid; grid-template-columns: 265px 265px; gap: 16px 18px;
+    }
+    /* nút tải: dùng ảnh nút gốc (265×78) làm nền */
+    /* mọi kích thước bên trong tính theo em, với 1em = 1 điểm ảnh của ảnh gốc → co giãn được trên điện thoại */
+    .dl2 { position: relative; display: block; width: 265em; height: 78em; font-size: 1px;
+      background: center / 100% 100% no-repeat; transition: transform .15s, filter .15s; }
+    .dl2 .patch { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+                          mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
+    .dl2:hover { transform: translateY(-2px); filter: brightness(1.15); }
+    .dl2.android { background-image: url(https://ltzj.hn5agame.com/img/android.png); }
+    .dl2.apple   { background-image: url(https://ltzj.hn5agame.com/img/appstore.png); }
+    .dl2.tap     { background-image: url(https://ltzj.hn5agame.com/img/download_t.png); }
+    .dl2.harmony { background-image: url(https://ltzj.hn5agame.com/img/harmony.png); }
+    .dl2 .patch span { font-size: inherit; }
+    /* vị trí miếng che theo % của nút 265×78 */
+    .dl2.android .patch { left: 38.87%; top: 26.92%; width: 43.77%; height: 48.72%; font-size: 18em;
+      background: linear-gradient(180deg, #2a1712, #1b1219); text-shadow: 0 0 .45em rgba(255, 150, 40, .9); }
+    .dl2.apple .patch { left: 38.49%; top: 51.28%; width: 18.87%; height: 23.08%; font-size: 12em; justify-content: flex-start; padding-left: .5em;
+      background: #330a3d; text-shadow: 0 0 .5em rgba(200, 110, 255, .9); }
+    .dl2.tap .patch { left: 58.49%; top: 30.77%; width: 24.91%; height: 39.74%; font-size: 15em;
+      background: linear-gradient(180deg, #0b3d4b, #05293a); text-shadow: 0 0 .45em rgba(60, 240, 220, .9); }
+    .dl2.harmony .patch { left: 38.49%; top: 26.92%; width: 48.3%; height: 48.72%; font-size: 15.5em;
+      background: linear-gradient(180deg, #06306a, #021f52); text-shadow: 0 0 .5em rgba(80, 170, 255, .9); }
+
+    .dl {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 190px; padding: 12px 16px; border-radius: 8px;
+      font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .3px;
+      background: linear-gradient(180deg, #3fb3ff 0%, #1565d8 100%);
+      border: 1px solid #9fdcff; box-shadow: 0 0 12px rgba(63, 179, 255, .5);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .dl:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(63, 179, 255, .8); }
+    .dl.tap { background: linear-gradient(180deg, #2fe0c8 0%, #0d9e8c 100%); border-color: #a5fff2; }
+    .dl.harmony { background: linear-gradient(180deg, #ff7b5c 0%, #d8342a 100%); border-color: #ffc2b3; }
+
+    /* Thanh mạng xã hội bên phải */
+    .right_share {
+      position: absolute; z-index: 98; right: 0; top: 50%; transform: translateY(-80%);
+      width: 96px; cursor: pointer;
+    }
+    .right_share .item { position: relative; display: block; }
+    .right_share img { width: 96px; display: block; }
+    .right_share .label {
+      position: absolute; right: 100%; top: 50%; transform: translateY(-50%);
+      white-space: nowrap; background: rgba(0,0,0,.8); color: #fff; font-size: 13px;
+      padding: 4px 8px; border-radius: 4px; margin-right: 6px; opacity: 0; pointer-events: none;
+      transition: opacity .15s;
+    }
+    .right_share .item:hover .label { opacity: 1; }
+
+    .public_con { position: absolute; z-index: 98; right: 96px; top: 65%; transform: translateY(-50%); display: none; }
+
+    /* Chân trang */
+    .footer {
+      width: 100%; min-height: 12vh; padding: 12px; background: #000;
+      color: rgba(255,255,255,.8); font-size: 13px; line-height: 1.8;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    }
+    .footer a { color: rgba(255,255,255,.8); text-decoration: underline; }
+
+    .hidden_pc { }
+    @media (min-width: 1025px) { .hidden_pc { display: none !important; } }
+
+    @media (max-width: 1024px) {
+      .hidden_m { display: none !important; }
+      /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
+      .main { background-image: url(https://ltzj.hn5agame.com/img/pc_bg.jpg); background-size: auto 100%; background-position: center top; aspect-ratio: 9 / 16; }
+      .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
+      .age .num { font-size: .34rem; }
+      .age .org { font-size: .15rem; }
+      .age .tip { font-size: .13rem; }
+      /* banner 周年庆典 2nd nằm sẵn trong m_bg.jpg: x 12%–91%, y 69%–84% */
+      .banner_m {
+        position: absolute; z-index: 5; left: 5%; top: auto; bottom: 12.5%; width: 90%; height: auto;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;
+      }
+      /* tấm nền sắc nét (thay lớp mờ), cùng phong cách khung tải trên máy tính – che banner chữ Trung trong ảnh nền */
+      .banner_m::before {
+        content: ""; position: absolute; inset: -3% -3% -4%; z-index: -1;
+        clip-path: polygon(3% 0, 97% 0, 100% 8%, 100% 92%, 97% 100%, 3% 100%, 0 92%, 0 8%);
+        background:
+          linear-gradient(90deg, rgba(95, 195, 255, .9), rgba(95, 195, 255, .9)) top / 100% .4cqw no-repeat,
+          linear-gradient(90deg, rgba(95, 195, 255, .9), rgba(95, 195, 255, .9)) bottom / 100% .4cqw no-repeat,
+          repeating-linear-gradient(120deg, rgba(120, 200, 255, .05) 0 .5cqw, transparent .5cqw 1.6cqw),
+          radial-gradient(ellipse 80% 60% at 50% 30%, rgba(60, 130, 230, .35), transparent 75%),
+          linear-gradient(180deg, #0a1736 0%, #0e2150 55%, #091431 100%);
+      }
+      .banner_m::after {
+        /* viền phát sáng hai bên */
+        content: ""; position: absolute; inset: -3% -3% -4%; z-index: -1; pointer-events: none;
+        clip-path: polygon(3% 0, 97% 0, 100% 8%, 100% 92%, 97% 100%, 3% 100%, 0 92%, 0 8%);
+        box-shadow: inset 0 0 0 .35cqw rgba(95, 195, 255, .75), inset 0 0 3cqw rgba(60, 160, 255, .35);
+      }
+      /* dải băng gốc lấy từ cover.png (x 130–770, y 185–265), phóng theo bề rộng màn hình */
+      .rib_m {
+        position: relative; width: 70cqw; aspect-ratio: 640 / 80; margin-top: 1.2cqw;
+        background: url(https://ltzj.hn5agame.com/img/cover.png) 50% 46.48% / 140.625% auto no-repeat;
+      }
+      .rib_m .patch {
+        left: 10.6%; top: 15%; width: 78.2%; height: 50%; font-size: 1.75cqw;
+        background: linear-gradient(180deg, rgba(8, 46, 110, .96), rgba(10, 54, 122, .96));
+        text-shadow: 0 0 .4em rgba(90, 190, 255, .9), 0 1px 0 #02142e;
+        font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+      }
+      /* 2 nút tải: ảnh nút gốc như bản máy tính */
+      .download_m .dl2 { width: 36cqw; height: auto; aspect-ratio: 265 / 78; font-size: calc(36cqw / 265); }
+      /* nền không còn chữ Trung → bỏ tấm nền, chữ nằm trực tiếp trên ảnh như bản máy tính */
+      .banner_m::before, .banner_m::after { display: none; }
+      .banner_m .cv_title { gap: 1.2cqw; }
+      .banner_m .cv_title .big { font-size: 5.2cqw; -webkit-text-stroke-width: .2cqw; }
+      .banner_m .cv_title .nd { font-size: 8.6cqw; -webkit-text-stroke-width: .2cqw; }
+      .banner_m .cv_sub { font-size: 2.9cqw; margin-top: .4cqw; }
+      .banner_m .cv_ribbon { width: 86cqw; font-size: 2.15cqw; padding: 1cqw 0; margin-top: 2cqw; border-width: .3cqw; }
+      .banner_m .cv_ribbon .arr { margin: 0 1cqw; }
+      /* vị trí logo gốc trong m_bg.jpg (1080×1920) */
+      /* logo gốc trong m_bg.jpg: x 32–70%, y 2.1–9.3% */
+      /* logo gốc trong m_bg.jpg: rộng ~37.5%, tâm x 51% */
+      /* logo gốc của pc_bg.jpg khi cắt giữa cho màn dọc: rộng ~46%, tâm x 49.6% */
+      .logo_vi { left: 49.6%; width: 48%; top: .9%; }
+      .logo_vi .ban { font-size: 2.4cqw; margin-bottom: .1cqw; }
+      .right_share { top: 40%; transform: translateY(-50%); width: .9rem; }
+      .right_share img { width: .9rem; }
+      .right_share .label { display: none; }
+
+      .download_m {
+        position: absolute; bottom: 30px; width: 92cqw;
+        display: flex; justify-content: center; gap: 3cqw;
+      }
+
+      .public_con_m {
+        position: absolute; z-index: 99; inset: 0; background: rgba(0,0,0,.9);
+        display: none; text-align: center;
+      }
+      .public_con_m img.qr_m { padding-top: 3rem; width: 5rem; }
+      .public_con_m .close { width: .5rem; vertical-align: top; padding-top: 2.5rem; cursor: pointer; }
+      .public_con_m p { color: #fff; font-size: .3rem; margin-top: .2rem; }
+    }
+  </style>
+</head>
+<body onload="init()">
+  <div id="app">
+    <div class="main">
+      <!-- Nhãn độ tuổi CADPA 12+ -->
+      <div class="age" title="Gợi ý độ tuổi CADPA: 12 tuổi trở lên">
+        <div class="num">12<sup>+</sup></div>
+        <div class="org">CADPA</div>
+        <div class="tip">Gợi ý độ tuổi</div>
+      </div>
+
+      <!-- Logo tiếng Việt (đè lên logo 官方正版 / 雷霆战机 trong ảnh nền) -->
+      <div class="logo_vi">
+        <div class="ban" aria-hidden="true"><span class="b">BẢN CHÍNH THỨC</span><span class="m">BẢN CHÍNH THỨC</span><span class="f">BẢN CHÍNH THỨC</span></div>
+        <!-- ?v=2: buộc trình duyệt tải lại ảnh đã xoá vệt trắng ở mép dưới -->
+        <img src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại – Bản chính thức">
+      </div>
+
+      <!-- Banner kỷ niệm tiếng Việt cho điện thoại (đè lên chữ Trung trong m_bg.jpg) -->
+      <div class="banner_m hidden_pc">
+        <div class="cv_title"><span class="big">ĐẠI LỄ KỶ NIỆM</span><span class="nd">2<sup>nd</sup></span></div>
+        <div class="cv_sub">Chinh phục biển sao – Ta cùng đồng hành</div>
+        <div class="rib_m"><span class="patch">Tải bản App: mượt mà, không giật lag, vào trận ổn định</span></div>
+      </div>
+
+      <!-- Nút tải trên điện thoại -->
+      <div class="download_m hidden_pc">
+        <a class="dl2 android" data-os="android" title="Tải cho Android" href="#" onclick="window.open(LINKS.android);return false"><span class="patch">Tải Android</span></a>
+        <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" href="#" onclick="window.open(LINKS.harmony);return false" style="display:none"><span class="patch">Tải HarmonyOS</span></a>
+        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#" onclick="window.open(LINKS.apple);return false" style="display:none"><span class="patch">Tải về</span></a>
+        <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" href="#" onclick="window.open(LINKS.tap);return false"><span class="patch">Tải về</span></a>
+      </div>
+
+      <!-- Khu vực tải trên máy tính -->
+      <div class="main_btns hidden_m">
+        <!-- 周年庆典 2nd = Đại lễ kỷ niệm 2 năm; 星海征途-你我同行 = Chinh phục biển sao – Ta cùng đồng hành -->
+        <div class="cv_title"><span class="big">ĐẠI LỄ KỶ NIỆM</span><span class="nd">2<sup>nd</sup></span></div>
+        <div class="cv_sub">Chinh phục biển sao – Ta cùng đồng hành</div>
+        <!-- 下载App版本，流畅不卡顿，随时稳定开局 -->
+        <div class="cv_panel">
+          <div class="patch cv_rib_text">Tải bản App: mượt mà, không giật lag, vào trận ổn định</div>
+          <div class="patch cv_caption">Quét mã tải game</div>
+        <div class="btn_grid">
+          <!-- 安卓下载 / TapTap下载 / App Store下载 / 鸿蒙下载 -->
+          <a class="dl2 android" title="Tải cho Android" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải Android</span></a>
+          <a class="dl2 tap" title="Tải qua TapTap" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
+          <a class="dl2 apple" title="Tải trên App Store" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải về</span></a>
+          <a class="dl2 harmony" title="Tải cho HarmonyOS" target="_blank" href="https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&amp;touchpoint_type=click"><span class="patch">Tải HarmonyOS</span></a>
+        </div>
+        </div>
+      </div>
+
+      <!-- Mạng xã hội -->
+      <div class="right_share">
+        <a class="item" target="_blank" href="https://www.taptap.cn/app/6987"><img src="https://ltzj.hn5agame.com/img/taptap.png" alt="TapTap"><span class="label">TapTap</span></a>
+        <a class="item" target="_blank" href="https://www.douyin.com/user/MS4wLjABAAAAOXvTQ2oUQ8x4JWNjisWQuLe6vYZVG-A2NzSJ9A-J1aQRfTRNRZDBW6fmPEjGEaIQ?from_tab_name=main"><img src="https://ltzj.hn5agame.com/img/douyin.png" alt="Douyin"><span class="label">Douyin (TikTok Trung Quốc)</span></a>
+        <a class="item" target="_blank" href="https://space.bilibili.com/3546702812285350"><img src="https://ltzj.hn5agame.com/img/bilibili.png" alt="Bilibili"><span class="label">Bilibili</span></a>
+        <div class="item" onmouseover="showPublic()" onmouseout="hidePublic('public_con')" onclick="showPublic()"><img src="https://ltzj.hn5agame.com/img/wechat.png" alt="Tài khoản WeChat chính thức"><span class="label">Tài khoản WeChat chính thức</span></div>
+        <a class="item" target="_blank" href="https://hnalywhfzyxgs.qiyukf.com/client?k=a33a3eb916450414cfae9e72f245fad4&amp;wp=1&amp;robotShuntSwitch=0&amp;shuntId=0&amp;language=zh-cn&amp;templateId=6686040"><img src="https://ltzj.hn5agame.com/img/service.png" alt="Chăm sóc khách hàng"><span class="label">Chăm sóc khách hàng</span></a>
+      </div>
+
+      <div class="public_con" id="public_con"><img src="https://ltzj.hn5agame.com/img/public.png" alt="Tài khoản WeChat chính thức"></div>
+      <div class="public_con_m hidden_pc" id="public_con_m">
+        <img class="qr_m" src="https://ltzj.hn5agame.com/img/public_m.png" alt="Tài khoản WeChat chính thức"><img class="close" src="https://ltzj.hn5agame.com/img/close.png" alt="Đóng" onclick="hidePublic('public_con_m')">
+        <p>Quét mã để theo dõi tài khoản WeChat chính thức</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Tên ứng dụng: Lôi Đình Chiến Cơ: Tập Kết ｜ Nhà phát triển: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam</div>
+      <div>Phiên bản: <span id="vercode">1.30.5</span> ｜ <a href="privacy-vi.html" target="_blank">Chính sách bảo mật</a> ｜ <a href="sdk-vi.html" target="_blank">Quyền ứng dụng</a></div>
+      <div>Số phê duyệt xuất bản: Quốc Tân Xuất Thẩm (2024) số 854 ｜ Đăng ký ICP: Quỳnh ICP 17000129-26A ｜ ISBN 978-7-498-13452-3 ｜ Giấy phép kinh doanh: Quỳnh B2-20170022</div>
+      <div>Tên công ty: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam ｜ Địa chỉ: Phòng 807, Toà nhà Kim Thái Phú Địa, đường Tây An Ninh Trang, quận Hải Điến, Bắc Kinh ｜ Liên hệ: aly5agame666@163.com</div>
+      <div>Giới thiệu: “Lôi Đình Chiến Cơ: Tập Kết” – ông tổ của dòng game bắn máy bay. Tượng đài trở lại, tái chiến dải Ngân Hà!</div>
+    </div>
+  </div>
+</body>
+</html>

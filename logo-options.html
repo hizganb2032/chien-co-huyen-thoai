@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chọn kiểu logo – Chiến Cơ Huyền Thoại</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,800;0,900;1,900&family=Bungee&family=Chakra+Petch:wght@700&family=Exo+2:ital,wght@1,900&family=Saira:wght@700;800&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0f1a; color: #e8eef8; font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 20px 60px; }
+    h1 { font-size: 22px; margin: 0 0 6px; }
+    .hint { color: #9aa7bd; font-size: 14px; margin: 0 0 24px; }
+    .opt { margin-bottom: 34px; }
+    .opt h2 { font-size: 17px; margin: 0 0 4px; }
+    .opt h2 b { display: inline-block; min-width: 28px; padding: 0 8px; margin-right: 8px; border-radius: 6px; background: #1a5fd6; text-align: center; }
+    .opt p { margin: 0 0 10px; color: #9aa7bd; font-size: 14px; }
+
+    /* Khung xem trước: phần trên của ảnh nền máy tính, logo co giãn theo đúng tỉ lệ trang thật */
+    .card {
+      position: relative; width: 100%; height: 0; padding-bottom: 30%;
+      container-type: inline-size; overflow: hidden; border-radius: 10px;
+      background: url(https://ltzj.hn5agame.com/img/pc_bg.jpg) center top / 100% auto no-repeat #1b2b4a;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
+    }
+
+    /* ===== Phần chung ===== */
+    .logo {
+      --cut: polygon(0 0, 100% 0, 100% 64%, 91% 100%, 9% 100%, 0 64%);
+      /* phóng to ×2 để dễ so sánh chi tiết */
+      position: absolute; left: 50%; top: 0; transform: translateX(-50%) scale(2); transform-origin: 50% 0;
+      width: 23cqw; padding: 1.1cqw 0 1.7cqw;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .logo::before, .logo::after { content: ""; position: absolute; clip-path: var(--cut); }
+    .logo::before { inset: 0; z-index: -2; }
+    .logo::after { inset: .18cqw; z-index: -1; }
+    .tag {
+      font-family: "Be Vietnam Pro", sans-serif; font-weight: 800; font-size: .82cqw; letter-spacing: .14em;
+      line-height: 1.5; padding: .1em 1em; border-radius: .25em; margin-bottom: .55cqw; color: #fff;
+    }
+    .title { text-align: center; white-space: nowrap; line-height: 1.22; }
+    .title span {
+      display: block; padding: .28em .12em .06em; margin: -.28em 0 -.06em;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* ===== 1. Thép xanh (kiểu hiện tại) ===== */
+    .v1 .logo { font-family: "Chakra Petch", sans-serif; font-weight: 700;
+      filter: drop-shadow(0 .25cqw .5cqw rgba(0,10,40,.55)) drop-shadow(0 0 .45cqw rgba(60,170,255,.5)); }
+    .v1 .logo::before { background: linear-gradient(180deg, #f2f8ff, #9db6d8 35%, #3fb3ff 52%, #b9d3f2 70%, #5a7398); }
+    .v1 .logo::after { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(90,195,255,.38), transparent 70%),
+      repeating-linear-gradient(120deg, rgba(255,255,255,.035) 0 .3cqw, transparent .3cqw .9cqw),
+      linear-gradient(180deg, #0c1d46, #12316f 55%, #0a1838); }
+    .v1 .tag { background: linear-gradient(180deg, #4fb8ff, #1a5fd6); box-shadow: 0 0 0 1px rgba(170,225,255,.7), 0 0 .5em rgba(60,160,255,.8); }
+    .v1 .title span { filter: drop-shadow(1px 0 0 #06112b) drop-shadow(-1px 0 0 #06112b) drop-shadow(0 1px 0 #06112b) drop-shadow(0 -1px 0 #06112b) drop-shadow(0 .12em 0 #030a1c); }
+    .v1 .l1 { font-size: 1.45cqw; letter-spacing: .32em; margin-right: -.32em !important; background-image: linear-gradient(180deg, #e6fbff, #8fe3ff 55%, #3aa8f0); }
+    .v1 .l2 { font-size: 2.45cqw; letter-spacing: .04em; background-image: linear-gradient(180deg, #fff, #eef4fb 42%, #9fb2cc 50%, #fff 62%, #c9d7ea); }
+
+    /* ===== 2. Hoàng kim ===== */
+    .v2 .logo { font-family: "Be Vietnam Pro", sans-serif; font-style: italic; font-weight: 900;
+      filter: drop-shadow(0 .25cqw .5cqw rgba(20,0,0,.6)) drop-shadow(0 0 .45cqw rgba(255,190,80,.45)); }
+    .v2 .logo::before { background: linear-gradient(180deg, #fff3c4, #e2b04f 35%, #8a5a1c 52%, #f5d27a 72%, #9c6a1e); }
+    .v2 .logo::after { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(255,120,70,.35), transparent 70%),
+      linear-gradient(180deg, #2a0b0f, #521419 55%, #1c0709); }
+    .v2 .tag { font-style: normal; color: #3a1d00; background: linear-gradient(180deg, #fff0b8, #e0a83c); box-shadow: 0 0 0 1px #fff6d6, 0 0 .5em rgba(255,200,90,.7); }
+    .v2 .title span { filter: drop-shadow(1px 0 0 #2a1405) drop-shadow(-1px 0 0 #2a1405) drop-shadow(0 1px 0 #2a1405) drop-shadow(0 -1px 0 #2a1405) drop-shadow(0 .12em 0 #140800); }
+    .v2 .l1 { font-size: 1.4cqw; letter-spacing: .26em; margin-right: -.26em !important; background-image: linear-gradient(180deg, #fff7d6, #f2c45e 60%, #c98b2c); }
+    .v2 .l2 { font-size: 2.5cqw; letter-spacing: .02em; background-image: linear-gradient(180deg, #fffbe6, #f7d774 40%, #b7791f 52%, #ffe9a3 68%, #a8701f); }
+
+    /* ===== 3. Neon không gian ===== */
+    .v3 .logo { --cut: polygon(5% 0, 95% 0, 100% 28%, 100% 100%, 0 100%, 0 28%);
+      font-family: "Saira", sans-serif; font-weight: 800;
+      filter: drop-shadow(0 0 .5cqw rgba(46,243,255,.55)); }
+    .v3 .logo::before { background: linear-gradient(90deg, #2ef3ff, #7a5cff 50%, #2ef3ff); }
+    .v3 .logo::after { background:
+      repeating-linear-gradient(0deg, rgba(46,243,255,.07) 0 1px, transparent 1px .6cqw),
+      repeating-linear-gradient(90deg, rgba(46,243,255,.07) 0 1px, transparent 1px .6cqw),
+      linear-gradient(180deg, #050b18, #0a1530); }
+    .v3 .tag { color: #bffaff; background: rgba(46,243,255,.08); box-shadow: 0 0 0 1px #2ef3ff, 0 0 .6em rgba(46,243,255,.6); }
+    .v3 .title span { color: inherit; -webkit-background-clip: border-box; background-clip: border-box; }
+    .v3 .l1 { font-size: 1.35cqw; font-weight: 700; letter-spacing: .45em; margin-right: -.45em !important; color: #ffb6fb;
+      text-shadow: 0 0 .15em #ff5cf0, 0 0 .5em #d63cff; }
+    .v3 .l2 { font-size: 2.5cqw; letter-spacing: .06em; color: #f2ffff;
+      text-shadow: 0 0 .06em #fff, 0 0 .18em #2ef3ff, 0 0 .5em #00b3ff, 0 0 1em #0077ff; }
+
+    /* ===== 4. Lửa chiến ===== */
+    .v4 .logo { --cut: polygon(3% 0, 97% 0, 100% 50%, 94% 100%, 6% 100%, 0 50%);
+      font-family: "Bungee", sans-serif;
+      filter: drop-shadow(0 .25cqw .5cqw rgba(0,0,0,.6)) drop-shadow(0 0 .4cqw rgba(255,110,30,.45)); }
+    .v4 .logo::before { background: linear-gradient(180deg, #e9edf3, #8b94a3 45%, #ff7a1a 52%, #c7ced8 70%, #555d6b); }
+    .v4 .logo::after { background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,90,20,.35), transparent 70%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 .35cqw, transparent .35cqw .7cqw),
+      linear-gradient(180deg, #1d2027, #121419); }
+    .v4 .tag { background: linear-gradient(180deg, #ff9a3c, #d9420f); box-shadow: 0 0 0 1px #ffd0a6, 0 0 .5em rgba(255,110,30,.7); }
+    .v4 .title span { filter: drop-shadow(1px 0 0 #1a0500) drop-shadow(-1px 0 0 #1a0500) drop-shadow(0 1px 0 #1a0500) drop-shadow(0 -1px 0 #1a0500) drop-shadow(0 .1em 0 #0d0300); }
+    .v4 .l1 { font-size: 1.2cqw; letter-spacing: .3em; margin-right: -.3em !important; background-image: linear-gradient(180deg, #ffffff, #c9d1dc 55%, #8a94a4); }
+    .v4 .l2 { font-size: 2.1cqw; letter-spacing: .02em; background-image: linear-gradient(180deg, #fff6c2, #ffcc33 35%, #ff7a1a 60%, #d62a0d); }
+
+    /* ===== 5. Cánh bạc ===== */
+    .v5 .logo { --cut: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+      width: 20cqw; padding-bottom: 2.4cqw;
+      font-family: "Exo 2", sans-serif; font-style: italic; font-weight: 900;
+      filter: drop-shadow(0 .25cqw .5cqw rgba(0,10,40,.55)) drop-shadow(0 0 .35cqw rgba(140,200,255,.5)); }
+    .v5 .logo::before { background: linear-gradient(180deg, #ffffff, #b9c6d8 45%, #6e819e 55%, #e8eef6); }
+    .v5 .logo::after { background: radial-gradient(ellipse 70% 60% at 50% 10%, rgba(120,190,255,.35), transparent 70%),
+      linear-gradient(180deg, #0f2550, #163a7d 60%, #0b1a3c); }
+    .v5 .wing { position: absolute; top: .6cqw; width: 6.5cqw; height: 5.2cqw; z-index: -3;
+      background: linear-gradient(180deg, #ffffff, #c3cfdf 40%, #7b8ba5 60%, #e3e9f2);
+      filter: drop-shadow(0 0 .2cqw rgba(0,20,60,.7)); }
+    .v5 .wing.l { right: 97%; clip-path: polygon(100% 0, 0 8%, 28% 26%, 6% 34%, 40% 50%, 18% 60%, 56% 74%, 40% 84%, 100% 100%); }
+    .v5 .wing.r { left: 97%; clip-path: polygon(0 0, 100% 8%, 72% 26%, 94% 34%, 60% 50%, 82% 60%, 44% 74%, 60% 84%, 0 100%); }
+    .v5 .tag { font-style: normal; background: linear-gradient(180deg, #4fb8ff, #1a5fd6); box-shadow: 0 0 0 1px rgba(200,235,255,.8), 0 0 .5em rgba(60,160,255,.8); }
+    .v5 .title span { filter: drop-shadow(1px 0 0 #071534) drop-shadow(-1px 0 0 #071534) drop-shadow(0 1px 0 #071534) drop-shadow(0 -1px 0 #071534) drop-shadow(0 .1em 0 #030a1c); }
+    .v5 .l1 { font-size: 1.35cqw; letter-spacing: .3em; margin-right: -.3em !important; background-image: linear-gradient(180deg, #e0f4ff, #7cc8ff 60%, #3c8fe0); }
+    .v5 .l2 { font-size: 2.3cqw; letter-spacing: .02em; background-image: linear-gradient(180deg, #ffffff, #e9eff7 40%, #8fa2bf 52%, #ffffff 66%, #c2cfe2); }
+
+    /* =====================================================================
+       KIỂU CÁNH CHIM CROM (theo phong cách logo gốc)
+       ===================================================================== */
+    .section { margin: 48px 0 18px; padding-top: 20px; border-top: 1px solid #26324a; }
+    .section h2 { font-size: 20px; margin: 0 0 4px; }
+
+    .wl {
+      --chrome: linear-gradient(180deg, #ffffff 0%, #eef3f9 28%, #a9b6c9 46%, #3d4a62 51%, #b8c5d8 66%, #ffffff 100%);
+      --rim: #cfe9ff; --dark: #0a1430; --glow: rgba(80, 170, 255, .65);
+      --wing: linear-gradient(160deg, #ffffff 0%, #dfe6f0 30%, #8a99b2 52%, #e8eef6 70%, #9aa8bf 100%);
+      --wingback: linear-gradient(160deg, #6f86ad, #2a3d63);
+      --tag: linear-gradient(180deg, #5cc2ff, #1a5fd6); --tagtext: #fff;
+      --gem: radial-gradient(circle at 40% 35%, #ffffff 0%, #9ff0ff 25%, #22b8ff 55%, #0b4fbf 100%);
+      --gemglow: rgba(40, 190, 255, .9);
+      --plate: linear-gradient(180deg, #13244d, #0b1634 60%, #081028);
+      --platerim: linear-gradient(180deg, #e9f2ff, #7f97bd 45%, #3fa9f5 55%, #a9bfdf);
+      position: absolute; left: 50%; top: 0; width: 30cqw; height: 8.4cqw;
+      transform: translateX(-50%) scale(2); transform-origin: 50% 0;
+      font-family: "Be Vietnam Pro", "Segoe UI Black", sans-serif; font-weight: 900;
+    }
+    .wl > * { position: absolute; }
+
+    /* đôi cánh: lớp ngoài cho viền + bóng, lớp trong cắt hình lông vũ */
+    .wl .wing { top: .6cqw; width: 8.6cqw; height: 6.6cqw;
+      filter: drop-shadow(1px 0 0 var(--dark)) drop-shadow(-1px 0 0 var(--dark)) drop-shadow(0 1px 0 var(--dark)) drop-shadow(0 -1px 0 var(--dark)) drop-shadow(0 .15cqw .25cqw rgba(0, 0, 0, .5)) drop-shadow(0 0 .3cqw var(--glow)); }
+    .wl .wing.l { right: calc(50% + 5.2cqw); transform: scaleX(-1); }
+    .wl .wing.r { left: calc(50% + 5.2cqw); }
+    .wl .wing i { position: absolute; inset: 0;
+      clip-path: polygon(0 18%, 100% 0, 74% 20%, 96% 24%, 68% 42%, 86% 48%, 60% 64%, 72% 72%, 46% 86%, 0 100%); }
+    .wl .wing i.back { background: var(--wingback); transform: translate(.35cqw, .35cqw); }
+    .wl .wing i.front { background: var(--wing); }
+
+    /* tấm nền trung tâm (che chữ Trung cũ) */
+    .wl .plate { left: 50%; top: 1.15cqw; width: 15cqw; height: 6.35cqw; transform: translateX(-50%);
+      filter: drop-shadow(0 0 .3cqw var(--glow)); }
+    .wl .plate::before, .wl .plate::after { content: ""; position: absolute;
+      clip-path: polygon(5% 0, 95% 0, 100% 45%, 92% 100%, 8% 100%, 0 45%); }
+    .wl .plate::before { inset: 0; background: var(--platerim); }
+    .wl .plate::after { inset: .16cqw; background:
+      radial-gradient(ellipse 70% 60% at 50% 20%, rgba(90, 180, 255, .3), transparent 70%), var(--plate); }
+
+    /* dải băng phía trên */
+    .wl .tag { left: 50%; top: .15cqw; transform: translateX(-50%) skewX(-10deg); z-index: 3;
+      padding: .12cqw 1.2cqw; font-size: .8cqw; letter-spacing: .12em; line-height: 1.45; color: var(--tagtext); white-space: nowrap;
+      background: var(--tag); clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+      filter: drop-shadow(0 0 .25cqw var(--glow)); }
+
+    /* chữ crom 3 lớp: viền tối dày, viền sáng mảnh, mặt crom */
+    .wl .word { left: 50%; transform: translateX(-50%) skewX(-9deg); white-space: nowrap; line-height: 1.2; z-index: 2; }
+    .wl .word span { display: block; padding: .3em .2em .12em; }
+    .wl .word .m, .wl .word .f { position: absolute; inset: 0; }
+    .wl .word .b { color: var(--dark); -webkit-text-stroke: .22em var(--dark);
+      filter: drop-shadow(0 .09em 0 #02060f) drop-shadow(0 0 .14em var(--glow)); }
+    .wl .word .m { color: transparent; -webkit-text-stroke: .09em var(--rim); }
+    .wl .word .f { color: transparent; background: var(--chrome); -webkit-background-clip: text; background-clip: text; }
+    .wl .w1 { top: 1.85cqw; font-size: 1.35cqw; letter-spacing: .22em; }
+    .wl .w2 { top: 3.7cqw; font-size: 2.3cqw; letter-spacing: .02em; }
+
+    /* viên ngọc + tia sáng phía dưới */
+    .wl .beam { left: 50%; top: 7.75cqw; width: 12cqw; height: .14cqw; transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, var(--gemglow), #fff, var(--gemglow), transparent);
+      filter: drop-shadow(0 0 .2cqw var(--gemglow)); }
+    .wl .gem { left: 50%; top: 7.25cqw; width: 1.15cqw; height: 1.15cqw; transform: translateX(-50%) rotate(45deg);
+      background: var(--gem); border: .12cqw solid #e8f6ff; z-index: 3;
+      box-shadow: 0 0 .4cqw var(--gemglow), 0 0 1cqw var(--gemglow); }
+    .wl .sub { left: 50%; top: 9.45cqw; transform: translateX(-50%); font-size: .62cqw; letter-spacing: .3em; color: #e9f4ff;
+      white-space: nowrap; text-shadow: 0 0 .3em var(--gemglow), 0 1px 0 #000; }
+
+    /* 6: Cánh bạc cổ điển (mặc định ở trên) */
+
+    /* 7: Băng lam */
+    .wl.ice {
+      --chrome: linear-gradient(180deg, #ffffff 0%, #e2f6ff 30%, #7cc6f2 47%, #1a5aa8 52%, #8fd2ff 68%, #f0fbff 100%);
+      --rim: #a6e6ff; --dark: #061733; --glow: rgba(60, 200, 255, .75);
+      --wing: linear-gradient(160deg, #ffffff 0%, #cfeeff 30%, #4f9fe0 52%, #d6f1ff 70%, #6aa9de 100%);
+      --wingback: linear-gradient(160deg, #2f6fb8, #0d2d63);
+    }
+    /* 8: Hoàng kim */
+    .wl.gold {
+      --chrome: linear-gradient(180deg, #fffdf0 0%, #ffe9a3 28%, #d39a35 46%, #6b3a0c 51%, #e0a947 66%, #fff4c7 100%);
+      --rim: #ffe7a8; --dark: #2a1205; --glow: rgba(255, 170, 60, .6);
+      --wing: linear-gradient(160deg, #fffbe6 0%, #f6d47c 30%, #a8701f 52%, #ffe7a0 70%, #b8812c 100%);
+      --wingback: linear-gradient(160deg, #8a4a12, #3a1806);
+      --tag: linear-gradient(180deg, #ff5a4a, #b3150f);
+      --gem: radial-gradient(circle at 40% 35%, #fff 0%, #ffd27a 25%, #ff6a1a 55%, #a3200a 100%);
+      --gemglow: rgba(255, 130, 40, .9);
+      --plate: linear-gradient(180deg, #3a0d10, #250709 60%, #160405);
+      --platerim: linear-gradient(180deg, #fff3c4, #d9a441 45%, #8a5a1c 55%, #f5d27a);
+    }
+    /* 9: Bố cục như logo gốc – “CHIẾN CƠ” lên dải băng, “HUYỀN THOẠI” to ở giữa */
+    .wl.orig .tag { top: .2cqw; font-size: 1.05cqw; letter-spacing: .3em; padding: .1cqw 1.6cqw .1cqw 1.9cqw; }
+    .wl.orig .w2 { top: 2.5cqw; font-size: 2.75cqw; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Chọn kiểu logo – Chiến Cơ Huyền Thoại</h1>
+  <p class="hint">Mỗi khung là phần trên của ảnh nền thật trên máy tính; logo được phóng to gấp đôi để dễ xem chi tiết. Tấm nền logo ở cả 5 kiểu đều che kín logo chữ Trung cũ.</p>
+
+  <div class="opt v1">
+    <h2><b>1</b>Thép xanh (kiểu hiện tại)</h2>
+    <p>Font Chakra Petch góc cạnh, chữ bạc trên nền xanh đậm viền kim loại. Gọn, hiện đại.</p>
+    <div class="card"><div class="logo"><div class="tag">BẢN CHÍNH THỨC</div><div class="title"><span class="l1">CHIẾN CƠ</span><span class="l2">HUYỀN THOẠI</span></div></div></div>
+  </div>
+
+  <div class="opt v2">
+    <h2><b>2</b>Hoàng kim</h2>
+    <p>Chữ nghiêng mạ vàng trên nền đỏ thẫm. Sang trọng, hợp chữ “Huyền Thoại” và không khí đại lễ kỷ niệm.</p>
+    <div class="card"><div class="logo"><div class="tag">BẢN CHÍNH THỨC</div><div class="title"><span class="l1">CHIẾN CƠ</span><span class="l2">HUYỀN THOẠI</span></div></div></div>
+  </div>
+
+  <div class="opt v3">
+    <h2><b>3</b>Neon không gian</h2>
+    <p>Chữ phát sáng xanh neon, dòng trên tím hồng, nền tối kẻ lưới. Đậm chất khoa học viễn tưởng.</p>
+    <div class="card"><div class="logo"><div class="tag">BẢN CHÍNH THỨC</div><div class="title"><span class="l1">CHIẾN CƠ</span><span class="l2">HUYỀN THOẠI</span></div></div></div>
+  </div>
+
+  <div class="opt v4">
+    <h2><b>4</b>Lửa chiến</h2>
+    <p>Font Bungee to khoẻ, chữ chuyển vàng → cam → đỏ như lửa, nền thép đen. Mạnh, hành động.</p>
+    <div class="card"><div class="logo"><div class="tag">BẢN CHÍNH THỨC</div><div class="title"><span class="l1">CHIẾN CƠ</span><span class="l2">HUYỀN THOẠI</span></div></div></div>
+  </div>
+
+  <div class="opt v5">
+    <h2><b>5</b>Cánh bạc</h2>
+    <p>Khiên xanh có đôi cánh bạc hai bên, gợi lại logo cánh chim của game gốc. Font Exo 2 nghiêng.</p>
+    <div class="card"><div class="logo"><i class="wing l"></i><i class="wing r"></i><div class="tag">BẢN CHÍNH THỨC</div><div class="title"><span class="l1">CHIẾN CƠ</span><span class="l2">HUYỀN THOẠI</span></div></div></div>
+  </div>
+
+  <div class="section">
+    <h2>Phong cách cánh chim crom (giống logo gốc)</h2>
+    <p class="hint">Chữ crom kim loại khối dày, viền tối, đôi cánh hai bên, dải băng phía trên và viên ngọc phát sáng phía dưới.</p>
+  </div>
+
+  <div class="opt">
+    <h2><b>6</b>Cánh bạc cổ điển</h2>
+    <p>Sát với logo gốc nhất: chữ bạc crom, cánh bạc, dải băng xanh, ngọc xanh.</p>
+    <div class="card"><div class="wl">
+      <div class="wing l"><i class="back"></i><i class="front"></i></div><div class="wing r"><i class="back"></i><i class="front"></i></div>
+      <div class="plate"></div><div class="tag">BẢN CHÍNH THỨC</div>
+      <div class="word w1"><span class="b">CHIẾN CƠ</span><span class="m">CHIẾN CƠ</span><span class="f">CHIẾN CƠ</span></div>
+      <div class="word w2"><span class="b">HUYỀN THOẠI</span><span class="m">HUYỀN THOẠI</span><span class="f">HUYỀN THOẠI</span></div>
+      <div class="beam"></div><div class="gem"></div>
+    </div></div>
+  </div>
+
+  <div class="opt">
+    <h2><b>7</b>Băng lam</h2>
+    <p>Chữ crom ánh xanh băng, cánh xanh kim loại, phát sáng xanh lạnh.</p>
+    <div class="card"><div class="wl ice">
+      <div class="wing l"><i class="back"></i><i class="front"></i></div><div class="wing r"><i class="back"></i><i class="front"></i></div>
+      <div class="plate"></div><div class="tag">BẢN CHÍNH THỨC</div>
+      <div class="word w1"><span class="b">CHIẾN CƠ</span><span class="m">CHIẾN CƠ</span><span class="f">CHIẾN CƠ</span></div>
+      <div class="word w2"><span class="b">HUYỀN THOẠI</span><span class="m">HUYỀN THOẠI</span><span class="f">HUYỀN THOẠI</span></div>
+      <div class="beam"></div><div class="gem"></div>
+    </div></div>
+  </div>
+
+  <div class="opt">
+    <h2><b>8</b>Cánh vàng</h2>
+    <p>Chữ và cánh mạ vàng, dải băng đỏ, ngọc lửa cam. Hợp không khí đại lễ kỷ niệm.</p>
+    <div class="card"><div class="wl gold">
+      <div class="wing l"><i class="back"></i><i class="front"></i></div><div class="wing r"><i class="back"></i><i class="front"></i></div>
+      <div class="plate"></div><div class="tag">BẢN CHÍNH THỨC</div>
+      <div class="word w1"><span class="b">CHIẾN CƠ</span><span class="m">CHIẾN CƠ</span><span class="f">CHIẾN CƠ</span></div>
+      <div class="word w2"><span class="b">HUYỀN THOẠI</span><span class="m">HUYỀN THOẠI</span><span class="f">HUYỀN THOẠI</span></div>
+      <div class="beam"></div><div class="gem"></div>
+    </div></div>
+  </div>
+
+  <div class="opt">
+    <h2><b>9</b>Bố cục như logo gốc</h2>
+    <p>“CHIẾN CƠ” nằm trên dải băng xanh (thay chỗ 官方正版), “HUYỀN THOẠI” to ở giữa; “BẢN CHÍNH THỨC” chuyển xuống dưới viên ngọc.</p>
+    <div class="card"><div class="wl orig">
+      <div class="wing l"><i class="back"></i><i class="front"></i></div><div class="wing r"><i class="back"></i><i class="front"></i></div>
+      <div class="plate"></div><div class="tag">CHIẾN CƠ</div>
+      <div class="word w2"><span class="b">HUYỀN THOẠI</span><span class="m">HUYỀN THOẠI</span><span class="f">HUYỀN THOẠI</span></div>
+      <div class="beam"></div><div class="gem"></div><div class="sub">BẢN CHÍNH THỨC</div>
+    </div></div>
+  </div>
+</div>
+</body>
+</html>
