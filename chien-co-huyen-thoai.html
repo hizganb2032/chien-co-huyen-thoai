@@ -24,12 +24,11 @@
       recalc();
     })(document, window);
 
-    // Liên kết tải game lấy từ trang gốc (ảnh đã được tải về thư mục img/)
+    // ============ LINK TẢI GAME – THAY LINK MỚI TẠI ĐÂY ============
+    // Bấm nút là chuyển thẳng sang trang tải (cùng tab). Hiện đang tạm dùng link tải của bản gốc.
     var LINKS = {
       android: 'https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&touchpoint_type=click',
-      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click',
-      tap:     'https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&touchpoint_type=click',
-      harmony: 'https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&touchpoint_type=click'
+      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click'
     };
     var VERSION = '1.30.5';
 
@@ -45,7 +44,8 @@
 
     function init() {
       var vc = document.getElementById('vercode'); if (vc) vc.textContent = VERSION;
-      // Chỉ còn 2 nút Android và App Store: luôn hiện cả hai trên máy tính và điện thoại
+      // Gắn link tải cho 2 nút (máy tính + điện thoại)
+      document.querySelectorAll('a.dl2[data-os]').forEach(function (a) { var u = LINKS[a.getAttribute('data-os')]; if (u) a.href = u; });
     }
     // Trong WeChat không tải được trực tiếp → hiện màn hướng dẫn mở bằng trình duyệt (như bản gốc)
     function openDownload(url) {
@@ -175,6 +175,19 @@
       position: absolute; left: 318px; top: 152px;
       display: grid; grid-template-columns: 265px 265px; gap: 16px 18px;
     }
+    /* Khung nền chỉ vừa 2 nút tải (thay cho khung mã QR cũ) */
+    .dl_frame {
+      display: flex; justify-content: center; align-items: center; gap: 18px;
+      margin-top: 14px; padding: 14px 20px; border-radius: 10px;
+      background: linear-gradient(180deg, rgba(10, 30, 70, .78), rgba(6, 16, 42, .82));
+      border: 1px solid rgba(95, 195, 255, .6);
+      box-shadow: 0 0 16px rgba(60, 170, 255, .45), inset 0 0 14px rgba(95, 195, 255, .2);
+    }
+    /* Dải băng gốc (cover.png x 130–770, y 185–265) */
+    .rib { position: relative; width: 640px; aspect-ratio: 640 / 80; margin-top: 12px;
+      background: url(img/cover.png) 50% 46.48% / 140.625% auto no-repeat; font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; }
+    .rib .patch { left: 10.6%; top: 15%; width: 78.2%; height: 50%; font-size: 16px;
+      background: linear-gradient(180deg, rgba(8, 46, 110, .96), rgba(10, 54, 122, .96)); text-shadow: 0 0 .4em rgba(90, 190, 255, .9), 0 1px 0 #02142e; }
     /* nút tải: dùng ảnh nút gốc (265×78) làm nền */
     /* mọi kích thước bên trong tính theo em, với 1em = 1 điểm ảnh của ảnh gốc → co giãn được trên điện thoại */
     .dl2 { position: relative; display: block; width: 265em; height: 78em; font-size: 1px;
@@ -302,6 +315,7 @@
       }
       /* 2 nút tải: ảnh nút gốc như bản máy tính */
       .download_m .dl2 { width: 36cqw; height: auto; aspect-ratio: 265 / 78; font-size: calc(36cqw / 265); }
+      .download_m .dl_frame { margin-top: 0; gap: 3cqw; padding: 2.4cqw 3.2cqw; border-radius: 2cqw; }
       /* nền không còn chữ Trung → bỏ tấm nền, chữ nằm trực tiếp trên ảnh như bản máy tính */
       .banner_m::before, .banner_m::after { display: none; }
       .banner_m .cv_title { gap: 1.2cqw; }
@@ -354,10 +368,12 @@
         <div class="rib_m"><span class="patch">Tải bản App: mượt mà, không giật lag, vào trận ổn định</span></div>
       </div>
 
-      <!-- Nút tải trên điện thoại -->
+      <!-- Nút tải trên điện thoại: 2 nút trong khung vừa khít -->
       <div class="download_m hidden_pc">
-        <a class="dl2 android" data-os="android" title="Tải cho Android" href="tai-game.html#android"><span class="patch">Tải Android</span></a>
-        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="tai-game.html#apple"><span class="patch">Tải về</span></a>
+        <div class="dl_frame">
+          <a class="dl2 android" data-os="android" title="Tải cho Android" href="#"><span class="patch">Tải Android</span></a>
+          <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#"><span class="patch">Tải về</span></a>
+        </div>
       </div>
 
       <!-- Khu vực tải trên máy tính -->
@@ -365,45 +381,12 @@
         <!-- 周年庆典 2nd = Đại lễ kỷ niệm 2 năm; 星海征途-你我同行 = Chinh phục biển sao – Ta cùng đồng hành -->
         <div class="cv_title"><span class="big">ĐẠI LỄ KỶ NIỆM</span><span class="nd">2<sup>nd</sup></span></div>
         <div class="cv_sub">Chinh phục biển sao – Ta cùng đồng hành</div>
-        <!-- 下载App版本，流畅不卡顿，随时稳定开局 -->
-        <div class="cv_panel">
-          <div class="patch cv_rib_text">Tải bản App: mượt mà, không giật lag, vào trận ổn định</div>
-          <div class="patch cv_caption">Quét mã tải game</div>
-        <div class="btn_grid">
-          <!-- 安卓下载 / App Store下载 -->
-          <a class="dl2 android" data-os="android" title="Tải cho Android" href="tai-game.html#android"><span class="patch">Tải Android</span></a>
-          <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="tai-game.html#apple"><span class="patch">Tải về</span></a>
+        <!-- dải băng gốc lấy từ cover.png, chữ Trung 下载App版本… được che bằng chữ Việt -->
+        <div class="rib"><span class="patch">Tải bản App: mượt mà, không giật lag, vào trận ổn định</span></div>
+        <div class="dl_frame">
+          <a class="dl2 android" data-os="android" title="Tải cho Android" href="#"><span class="patch">Tải Android</span></a>
+          <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#"><span class="patch">Tải về</span></a>
         </div>
-        </div>
-      </div>
-
-      <!-- Mạng xã hội -->
-      <div class="right_share">
-        <a class="item" target="_blank" href="https://www.taptap.cn/app/6987"><img src="img/taptap.png" alt="TapTap"><span class="label">TapTap</span></a>
-        <a class="item" target="_blank" href="https://www.douyin.com/user/MS4wLjABAAAAOXvTQ2oUQ8x4JWNjisWQuLe6vYZVG-A2NzSJ9A-J1aQRfTRNRZDBW6fmPEjGEaIQ?from_tab_name=main"><img src="img/douyin.png" alt="Douyin"><span class="label">Douyin (TikTok Trung Quốc)</span></a>
-        <a class="item" target="_blank" href="https://space.bilibili.com/3546702812285350"><img src="img/bilibili.png" alt="Bilibili"><span class="label">Bilibili</span></a>
-        <div class="item" onmouseover="showPublic()" onmouseout="hidePublic()" onclick="togglePublic(event)"><img src="img/wechat.png" alt="Tài khoản WeChat chính thức"><span class="label">Tài khoản WeChat chính thức</span></div>
-        <a class="item" target="_blank" href="https://hnalywhfzyxgs.qiyukf.com/client?k=a33a3eb916450414cfae9e72f245fad4&amp;wp=1&amp;robotShuntSwitch=0&amp;shuntId=0&amp;language=zh-cn&amp;templateId=6686040"><img src="img/service.png" alt="Chăm sóc khách hàng"><span class="label">Chăm sóc khách hàng</span></a>
-      </div>
-
-      <!-- img/public-vi.png: ảnh public.png gốc đã viết chữ Việt trực tiếp vào ảnh (thay 官方公众号 / 扫描立即关注) -->
-      <div class="public_con" id="public_con" onclick="event.stopPropagation()">
-        <img src="img/public-vi.png" alt="Tài khoản WeChat chính thức – Quét mã để theo dõi ngay">
-      </div>
-
-      <!-- Màn hướng dẫn khi mở trang trong WeChat (bản gốc: img/download-vi.jpg) – chạm để đóng -->
-      <div class="download_con hidden_pc" id="download_con" onclick="this.style.display='none'">
-        <img class="wx_logo" src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại">
-        <div class="patch wx_h">2 BƯỚC BAY VÀO VŨ TRỤ</div>
-        <div class="patch wx_s1">1. Nhấn menu ở góc trên bên phải</div>
-        <div class="patch wx_s2a">2. Chọn</div>
-        <div class="patch wx_s2b">Mở bằng trình duyệt</div>
-        <div class="patch wx_mag">Mở bằng trình duyệt</div>
-        <div class="patch wx_b wx_b1">Gửi cho bạn bè</div>
-        <div class="patch wx_b wx_b2">Chia sẻ Khoảnh khắc</div>
-        <div class="patch wx_b wx_b3">Yêu thích</div>
-        <div class="patch wx_b wx_b4">Mở bằng trình duyệt</div>
-        <div class="wx_tip">Chạm vào màn hình để quay lại</div>
       </div>
     </div>
 
