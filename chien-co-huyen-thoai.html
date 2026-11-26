@@ -28,7 +28,11 @@
     // Bấm nút là chuyển thẳng sang trang tải (cùng tab). Hiện đang tạm dùng link tải của bản gốc.
     var LINKS = {
       android: 'https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&touchpoint_type=click',
-      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click'
+      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click',
+      // Link 3 icon bên phải – để trống thì bấm vào chưa đi đâu cả
+      tiktok:  '',
+      discord: '',
+      cskh:    ''
     };
     var VERSION = '1.30.5';
 
@@ -56,6 +60,7 @@
       var vc = document.getElementById('vercode'); if (vc) vc.textContent = VERSION;
       // Gắn link tải cho 2 nút (máy tính + điện thoại)
       document.querySelectorAll('a.dl2[data-os]').forEach(function (a) { var u = LINKS[a.getAttribute('data-os')]; if (u) a.href = u; });
+      document.querySelectorAll('.right_share a[data-link]').forEach(function (a) { var u = LINKS[a.getAttribute('data-link')]; if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener'; } else { a.addEventListener('click', function (e) { e.preventDefault(); }); } });
     }
     // Trong WeChat không tải được trực tiếp → hiện màn hướng dẫn mở bằng trình duyệt (như bản gốc)
     function openDownload(url) {
@@ -240,6 +245,7 @@
     }
     .right_share .item { position: relative; display: block; }
     .right_share img { width: 96px; display: block; }
+    .right_share .glyph { position: absolute; left: 50%; top: 50%; width: 40%; transform: translate(-50%, -52%); fill: #fff; filter: drop-shadow(0 0 2px rgba(120, 200, 255, .9)); pointer-events: none; }
     .right_share .label {
       position: absolute; right: 100%; top: 50%; transform: translateY(-50%);
       white-space: nowrap; background: rgba(0,0,0,.8); color: #fff; font-size: 13px;
@@ -398,6 +404,15 @@
           <a class="dl2 android" data-os="android" title="Tải cho Android" href="#"><span class="patch">Tải Android</span></a>
           <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="#"><span class="patch">Tải về</span></a>
         </div>
+      </div>
+
+      <!-- Thanh icon bên phải (vị trí như cũ): TikTok, Discord, Chăm sóc khách hàng -->
+      <div class="right_share">
+        <a class="item" data-link="tiktok" href="#"><img src="img/douyin.png" alt="TikTok"><span class="label">TikTok</span></a>
+        <a class="item" data-link="discord" href="#"><img src="img/icon-frame.png" alt="Discord">
+          <svg class="glyph" viewBox="0 0 71 55" aria-hidden="true"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.65.42a.22.22 0 0 0-.23.11 40.8 40.8 0 0 0-1.8 3.69 54 54 0 0 0-16.23 0A37.4 37.4 0 0 0 25.56.53a.23.23 0 0 0-.23-.11A58.3 58.3 0 0 0 10.88 4.9a.2.2 0 0 0-.1.08C1.58 18.73-.94 32.14.29 45.39a.24.24 0 0 0 .1.17 58.8 58.8 0 0 0 17.72 8.96.23.23 0 0 0 .25-.08 42 42 0 0 0 3.63-5.9.22.22 0 0 0-.12-.31 38.7 38.7 0 0 1-5.54-2.64.23.23 0 0 1-.02-.38c.37-.28.74-.57 1.1-.86a.22.22 0 0 1 .23-.03c11.62 5.3 24.2 5.3 35.68 0a.22.22 0 0 1 .23.03c.36.29.73.58 1.1.86a.23.23 0 0 1-.02.38 36.3 36.3 0 0 1-5.54 2.64.23.23 0 0 0-.12.31 47.2 47.2 0 0 0 3.62 5.9.23.23 0 0 0 .25.08 58.6 58.6 0 0 0 17.75-8.96.23.23 0 0 0 .1-.17c1.48-15.32-2.48-28.62-10.5-40.41a.18.18 0 0 0-.09-.08ZM23.73 37.33c-3.5 0-6.38-3.21-6.38-7.16s2.82-7.16 6.38-7.16c3.58 0 6.43 3.24 6.38 7.16 0 3.95-2.83 7.16-6.38 7.16Zm23.59 0c-3.5 0-6.38-3.21-6.38-7.16s2.82-7.16 6.38-7.16c3.58 0 6.43 3.24 6.38 7.16 0 3.95-2.8 7.16-6.38 7.16Z"/></svg>
+          <span class="label">Discord</span></a>
+        <a class="item" data-link="cskh" href="#"><img src="img/service.png" alt="Chăm sóc khách hàng"><span class="label">Chăm sóc khách hàng</span></a>
       </div>
     </div>
 
