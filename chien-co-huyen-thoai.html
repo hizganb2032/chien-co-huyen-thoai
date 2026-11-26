@@ -42,7 +42,17 @@
     }
     function isAndroid() { return !isApple() && !isHarmony() && /android/i.test(navigator.userAgent || ''); }
 
+    // Tính tỉ lệ ảnh nền (background-size: cover, căn giữa, bám đỉnh) để logo luôn đè khít logo cũ trong ảnh
+    function fitLogo() {
+      var m = document.querySelector(".main"); if (!m) return;
+      var W = m.clientWidth, H = m.clientHeight, s = Math.max(W / 1920, H / 1080);
+      m.style.setProperty("--bgs", s); m.style.setProperty("--bgx", ((W - 1920 * s) / 2) + "px");
+    }
+    window.addEventListener("resize", fitLogo);
+    document.addEventListener("DOMContentLoaded", fitLogo);
+
     function init() {
+      fitLogo();
       var vc = document.getElementById('vercode'); if (vc) vc.textContent = VERSION;
       // Gắn link tải cho 2 nút (máy tính + điện thoại)
       document.querySelectorAll('a.dl2[data-os]').forEach(function (a) { var u = LINKS[a.getAttribute('data-os')]; if (u) a.href = u; });
@@ -67,7 +77,7 @@
     #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(img/pc_bg-vi.jpg?v=2) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
+      background: url(img/pc_bg.jpg) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
       position: relative; width: 100%; aspect-ratio: 16 / 9;
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
@@ -79,7 +89,8 @@
       /* ảnh logo img/logo.png (477×174, đã tách nền đen) – đặt đè lên logo gốc trong pc_bg.jpg (x 42.6–57.2%, y 1.4–10.2%) */
       position: absolute; z-index: 5; pointer-events: none;
       /* cùng kích cỡ và tâm với logo gốc (rộng ~14.6%, tâm x 49.9%) */
-      left: 49.9%; top: .7%; width: 15.8%; transform: translateX(-50%);
+      /* đặt theo đúng toạ độ logo cũ trong ảnh nền 1920×1080 (tâm x 958, đỉnh y 7.6, rộng 303) – --bgs/--bgx do JS tính theo cách ảnh nền phủ màn hình */
+      left: calc(var(--bgx, 0px) + 958px * var(--bgs, .711)); top: calc(7.6px * var(--bgs, .711)); width: calc(303px * var(--bgs, .711)); transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center;
     }
     /* Dòng “BẢN CHÍNH THỨC” theo kiểu chữ 官方正版 gốc: chữ nghiêng xanh, viền trắng, viền ngoài xanh đậm */
@@ -275,7 +286,7 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(img/pc_bg-vi.jpg?v=2); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
+      .main { background-image: url(img/pc_bg.jpg); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
@@ -328,7 +339,7 @@
       /* logo gốc trong m_bg.jpg: x 32–70%, y 2.1–9.3% */
       /* logo gốc trong m_bg.jpg: rộng ~37.5%, tâm x 51% */
       /* logo gốc của pc_bg.jpg khi cắt giữa cho màn dọc: rộng ~46%, tâm x 49.6% */
-      .logo_vi { left: 49.6%; width: 48%; top: 1.4%; }
+      /* logo điện thoại: dùng chung cách đặt theo ảnh nền như máy tính */
       .logo_vi .ban { font-size: 2.4cqw; margin-bottom: .1cqw; }
       .right_share { top: 40%; transform: translateY(-50%); width: .9rem; }
       .right_share img { width: .9rem; }
