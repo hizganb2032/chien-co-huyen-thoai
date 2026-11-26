@@ -45,16 +45,7 @@
 
     function init() {
       var vc = document.getElementById('vercode'); if (vc) vc.textContent = VERSION;
-      var os = isHarmony() ? 'harmony' : (isAndroid() ? 'android' : (isApple() ? 'apple' : 'other'));
-      // Điện thoại: chỉ hiện nút tải đúng hệ điều hành (+ TapTap); HarmonyOS hiện thêm nút Android
-      document.querySelectorAll('.download_m [data-os]').forEach(function (el) {
-        var o = el.getAttribute('data-os');
-        var show = o === 'tap' || o === os || (os === 'harmony' && o === 'android') || (os === 'other' && o === 'android');
-        el.style.display = show ? '' : 'none';
-      });
-      // Máy tính (như bản gốc): Android ẩn App Store + HarmonyOS; Mac ẩn Android + HarmonyOS; HarmonyOS ẩn App Store; Windows hiện đủ 4 nút
-      var hide = { android: ['apple', 'harmony'], apple: ['android', 'harmony'], harmony: ['apple'], other: [] }[os];
-      hide.forEach(function (o) { var el = document.querySelector('.btn_grid [data-os="' + o + '"]'); if (el) el.style.display = 'none'; });
+      // Chỉ còn 2 nút Android và App Store: luôn hiện cả hai trên máy tính và điện thoại
     }
     // Trong WeChat không tải được trực tiếp → hiện màn hướng dẫn mở bằng trình duyệt (như bản gốc)
     function openDownload(url) {
@@ -76,7 +67,7 @@
     #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(img/pc_bg-vi.jpg) center top / contain no-repeat;
+      background: url(img/pc_bg-vi.jpg) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
       position: relative; width: 100%; aspect-ratio: 16 / 9;
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
@@ -181,7 +172,7 @@
       background: #1c56a5;
     }
     .btn_grid {
-      position: absolute; left: 318px; top: 105px;
+      position: absolute; left: 318px; top: 152px;
       display: grid; grid-template-columns: 265px 265px; gap: 16px 18px;
     }
     /* nút tải: dùng ảnh nút gốc (265×78) làm nền */
@@ -271,7 +262,7 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(img/pc_bg-vi.jpg); background-size: auto 100%; background-position: center top; aspect-ratio: 9 / 16; }
+      .main { background-image: url(img/pc_bg-vi.jpg); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
@@ -366,9 +357,7 @@
       <!-- Nút tải trên điện thoại -->
       <div class="download_m hidden_pc">
         <a class="dl2 android" data-os="android" title="Tải cho Android" href="tai-game.html#android"><span class="patch">Tải Android</span></a>
-        <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" href="tai-game.html#harmony" style="display:none"><span class="patch">Tải HarmonyOS</span></a>
-        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="tai-game.html#apple" style="display:none"><span class="patch">Tải về</span></a>
-        <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" href="tai-game.html#tap"><span class="patch">Tải về</span></a>
+        <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="tai-game.html#apple"><span class="patch">Tải về</span></a>
       </div>
 
       <!-- Khu vực tải trên máy tính -->
@@ -381,11 +370,9 @@
           <div class="patch cv_rib_text">Tải bản App: mượt mà, không giật lag, vào trận ổn định</div>
           <div class="patch cv_caption">Quét mã tải game</div>
         <div class="btn_grid">
-          <!-- 安卓下载 / TapTap下载 / App Store下载 / 鸿蒙下载 -->
+          <!-- 安卓下载 / App Store下载 -->
           <a class="dl2 android" data-os="android" title="Tải cho Android" href="tai-game.html#android"><span class="patch">Tải Android</span></a>
-          <a class="dl2 tap" data-os="tap" title="Tải qua TapTap" href="tai-game.html#tap"><span class="patch">Tải về</span></a>
           <a class="dl2 apple" data-os="apple" title="Tải trên App Store" href="tai-game.html#apple"><span class="patch">Tải về</span></a>
-          <a class="dl2 harmony" data-os="harmony" title="Tải cho HarmonyOS" href="tai-game.html#harmony"><span class="patch">Tải HarmonyOS</span></a>
         </div>
         </div>
       </div>
@@ -420,7 +407,6 @@
       </div>
     </div>
 
-    <div class="footer"><!-- chân trang để trống theo yêu cầu --></div>
   </div>
 </body>
 </html>

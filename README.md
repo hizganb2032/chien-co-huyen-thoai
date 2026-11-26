@@ -11,7 +11,7 @@ Bản dịch thử sang tiếng Việt của trang giới thiệu game 雷霆战
 | File | Nội dung |
 |---|---|
 | `chien-co-huyen-thoai.html` | Trang chủ tiếng Việt (máy tính và điện thoại) |
-| `tai-game.html` | Trang tải game tiếng Việt: giới thiệu, điểm nổi bật, 4 nút tải và hướng dẫn cài đặt |
+| `tai-game.html` | Trang tải game tiếng Việt: giới thiệu, điểm nổi bật, nút tải Android và App Store, hướng dẫn cài đặt |
 | `privacy-vi.html` | Chính sách bảo mật (bản dịch) |
 | `sdk-vi.html` | Quyền ứng dụng – danh mục SDK bên thứ ba (bản dịch) |
 | `sdk-data.js`, `legal.css` | Dữ liệu và kiểu trình bày dùng chung cho hai trang trên |
