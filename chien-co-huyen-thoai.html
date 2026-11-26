@@ -49,8 +49,12 @@
     // Tính tỉ lệ ảnh nền (background-size: cover, căn giữa, bám đỉnh) để logo luôn đè khít logo cũ trong ảnh
     function fitLogo() {
       var m = document.querySelector(".main"); if (!m) return;
-      var W = m.clientWidth, H = m.clientHeight, s = Math.max(W / 1920, H / 1080);
-      m.style.setProperty("--bgs", s); m.style.setProperty("--bgx", ((W - 1920 * s) / 2) + "px");
+      var W = m.clientWidth, H = m.clientHeight;
+      // Ảnh nền 1920×1080, bám mép dưới (dải viền THUNDER CROSS luôn sát đáy).
+      // Phóng đủ lớn để phần bị cắt ở trên ≥ 110px ảnh gốc → logo chữ Trung cũ (y 15–110) luôn nằm hẳn ngoài màn hình.
+      var s = Math.max(W / 1920, H / 970);
+      m.style.backgroundSize = (1920 * s) + "px auto";
+      m.style.setProperty("--bgs", s);
       // --ui: hệ số thu nhỏ cụm chữ + nút khi màn hình thấp, để cả trang luôn vừa 1 màn hình
       var ui = W > 1024 ? Math.min(1, H / 800, W / 1100) : Math.min(1, H / (W * 16 / 9));
       m.style.setProperty("--ui", ui);
@@ -85,7 +89,7 @@
     #app { width: 100%; height: 100vh; height: 100dvh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(img/pc_bg.jpg) center top / cover no-repeat;   /* ảnh nền phủ kín màn hình */
+      background: url(img/pc_bg.jpg) center bottom / cover no-repeat;   /* ảnh nền phủ kín màn hình, bám mép dưới để dải viền THUNDER CROSS luôn sát đáy */
       position: relative; width: 100%; height: 100vh; height: 100dvh;   /* luôn vừa đúng 1 màn hình, không cần cuộn */
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
@@ -98,7 +102,7 @@
       position: absolute; z-index: 5; pointer-events: none;
       /* cùng kích cỡ và tâm với logo gốc (rộng ~14.6%, tâm x 49.9%) */
       /* đặt theo đúng toạ độ logo cũ trong ảnh nền 1920×1080 (tâm x 958, đỉnh y 7.6, rộng 303) – --bgs/--bgx do JS tính theo cách ảnh nền phủ màn hình */
-      left: calc(var(--bgx, 0px) + 958px * var(--bgs, .711)); top: calc(7.6px * var(--bgs, .711)); width: calc(303px * var(--bgs, .711)); transform: translateX(-50%);
+      left: 50%; top: 6px; width: min(calc(303px * var(--bgs, .79)), 62vw); transform: translateX(-50%);   /* logo cũ trong ảnh luôn ở ngoài màn hình → đặt cố định giữa, sát trên */
       display: flex; flex-direction: column; align-items: center;
     }
     /* Dòng “BẢN CHÍNH THỨC” theo kiểu chữ 官方正版 gốc: chữ nghiêng xanh, viền trắng, viền ngoài xanh đậm */
@@ -295,14 +299,14 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(img/pc_bg.jpg); background-size: cover; background-position: center top; }
+      .main { background-image: url(img/pc_bg.jpg); background-size: cover; background-position: center bottom; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
       .age .tip { font-size: .13rem; }
       /* banner 周年庆典 2nd nằm sẵn trong m_bg.jpg: x 12%–91%, y 69%–84% */
       .banner_m {
-        position: absolute; z-index: 5; left: 5%; top: auto; bottom: calc(30px + 19cqw * var(--ui, 1)); width: 90%; height: auto; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;
+        position: absolute; z-index: 5; left: 5%; top: auto; bottom: calc(60px * var(--bgs, .84) + 10px + 19cqw * var(--ui, 1)); width: 90%; height: auto; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;
         display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;
       }
       /* tấm nền sắc nét (thay lớp mờ), cùng phong cách khung tải trên máy tính – che banner chữ Trung trong ảnh nền */
@@ -355,7 +359,7 @@
       .right_share .label { display: none; }
 
       .download_m {
-        position: absolute; bottom: 30px; width: 92cqw; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;
+        position: absolute; bottom: calc(60px * var(--bgs, .84) + 10px); width: 92cqw; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;   /* chừa chỗ cho dòng THUNDER CROSS ở đáy ảnh */
         display: flex; justify-content: center; gap: 3cqw;
       }
 
