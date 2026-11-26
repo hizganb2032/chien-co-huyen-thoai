@@ -88,7 +88,7 @@
       /* ảnh logo img/logo.png (477×174, đã tách nền đen) – đặt đè lên logo gốc trong pc_bg.jpg (x 42.6–57.2%, y 1.4–10.2%) */
       position: absolute; z-index: 5; pointer-events: none;
       /* cùng kích cỡ và tâm với logo gốc (rộng ~14.6%, tâm x 49.9%) */
-      left: 49.9%; top: .15%; width: 15.8%; transform: translateX(-50%);
+      left: 49.9%; top: .7%; width: 15.8%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center;
     }
     /* Dòng “BẢN CHÍNH THỨC” theo kiểu chữ 官方正版 gốc: chữ nghiêng xanh, viền trắng, viền ngoài xanh đậm */
@@ -323,7 +323,7 @@
       /* logo gốc trong m_bg.jpg: x 32–70%, y 2.1–9.3% */
       /* logo gốc trong m_bg.jpg: rộng ~37.5%, tâm x 51% */
       /* logo gốc của pc_bg.jpg khi cắt giữa cho màn dọc: rộng ~46%, tâm x 49.6% */
-      .logo_vi { left: 49.6%; width: 48%; top: .9%; }
+      .logo_vi { left: 49.6%; width: 48%; top: 1.4%; }
       .logo_vi .ban { font-size: 2.4cqw; margin-bottom: .1cqw; }
       .right_share { top: 40%; transform: translateY(-50%); width: .9rem; }
       .right_share img { width: .9rem; }
@@ -352,7 +352,6 @@
 
       <!-- Logo tiếng Việt (đè lên logo 官方正版 / 雷霆战机 trong ảnh nền) -->
       <div class="logo_vi">
-        <div class="ban" aria-hidden="true"><span class="b">BẢN CHÍNH THỨC</span><span class="m">BẢN CHÍNH THỨC</span><span class="f">BẢN CHÍNH THỨC</span></div>
         <!-- ?v=2: buộc trình duyệt tải lại ảnh đã xoá vệt trắng ở mép dưới -->
         <img src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại – Bản chính thức">
       </div>
