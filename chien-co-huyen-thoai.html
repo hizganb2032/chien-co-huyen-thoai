@@ -44,7 +44,7 @@
     function isAndroid() { return !isApple() && !isHarmony() && /android/i.test(navigator.userAgent || ''); }
 
     function init() {
-      document.getElementById('vercode').textContent = VERSION;
+      var vc = document.getElementById('vercode'); if (vc) vc.textContent = VERSION;
       var os = isHarmony() ? 'harmony' : (isAndroid() ? 'android' : (isApple() ? 'apple' : 'other'));
       // Điện thoại: chỉ hiện nút tải đúng hệ điều hành (+ TapTap); HarmonyOS hiện thêm nút Android
       document.querySelectorAll('.download_m [data-os]').forEach(function (el) {
@@ -420,13 +420,7 @@
       </div>
     </div>
 
-    <div class="footer">
-      <div>Tên ứng dụng: Lôi Đình Chiến Cơ: Tập Kết ｜ Nhà phát triển: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam</div>
-      <div>Phiên bản: <span id="vercode">1.30.5</span> ｜ <a href="privacy-vi.html" target="_blank">Chính sách bảo mật</a> ｜ <a href="sdk-vi.html" target="_blank">Quyền ứng dụng</a></div>
-      <div>Số phê duyệt xuất bản: Quốc Tân Xuất Thẩm (2024) số 854 ｜ Đăng ký ICP: Quỳnh ICP 17000129-26A ｜ ISBN 978-7-498-13452-3 ｜ Giấy phép kinh doanh: Quỳnh B2-20170022</div>
-      <div>Tên công ty: Công ty TNHH Phát triển Văn hoá Ái Lạc Du Hải Nam ｜ Địa chỉ: Phòng 807, Toà nhà Kim Thái Phú Địa, đường Tây An Ninh Trang, quận Hải Điến, Bắc Kinh ｜ Liên hệ: aly5agame666@163.com</div>
-      <div>Giới thiệu: “Lôi Đình Chiến Cơ: Tập Kết” – ông tổ của dòng game bắn máy bay. Tượng đài trở lại, tái chiến dải Ngân Hà!</div>
-    </div>
+    <div class="footer"><!-- chân trang để trống theo yêu cầu --></div>
   </div>
 </body>
 </html>
