@@ -51,6 +51,9 @@
       var m = document.querySelector(".main"); if (!m) return;
       var W = m.clientWidth, H = m.clientHeight, s = Math.max(W / 1920, H / 1080);
       m.style.setProperty("--bgs", s); m.style.setProperty("--bgx", ((W - 1920 * s) / 2) + "px");
+      // --ui: hệ số thu nhỏ cụm chữ + nút khi màn hình thấp, để cả trang luôn vừa 1 màn hình
+      var ui = W > 1024 ? Math.min(1, H / 800, W / 1100) : Math.min(1, H / (W * 16 / 9));
+      m.style.setProperty("--ui", ui);
     }
     window.addEventListener("resize", fitLogo);
     document.addEventListener("DOMContentLoaded", fitLogo);
@@ -79,11 +82,11 @@
     body { font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #000; }
     a { text-decoration: none; }
 
-    #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
+    #app { width: 100%; height: 100vh; height: 100dvh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(img/pc_bg.jpg) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
-      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      background: url(img/pc_bg.jpg) center top / cover no-repeat;   /* ảnh nền phủ kín màn hình */
+      position: relative; width: 100%; height: 100vh; height: 100dvh;   /* luôn vừa đúng 1 màn hình, không cần cuộn */
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
 
@@ -131,7 +134,7 @@
     /* Khu vực tải game (máy tính) – dựng lại từ cover.png (900×478):
        phần chữ Trung phía trên làm lại bằng HTML, chỉ giữ khung QR (y 262 → 478) của ảnh gốc */
     .main_btns {
-      position: absolute; bottom: 0.7rem; left: 50%; transform: translateX(-50%);
+      position: absolute; bottom: 0.7rem; left: 50%; transform: translateX(-50%) scale(var(--ui, 1)); transform-origin: 50% 100%;
       width: 900px; display: flex; flex-direction: column; align-items: center;
     }
     .cv_title {
@@ -292,14 +295,14 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(img/pc_bg.jpg); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
+      .main { background-image: url(img/pc_bg.jpg); background-size: cover; background-position: center top; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
       .age .tip { font-size: .13rem; }
       /* banner 周年庆典 2nd nằm sẵn trong m_bg.jpg: x 12%–91%, y 69%–84% */
       .banner_m {
-        position: absolute; z-index: 5; left: 5%; top: auto; bottom: 12.5%; width: 90%; height: auto;
+        position: absolute; z-index: 5; left: 5%; top: auto; bottom: calc(30px + 19cqw * var(--ui, 1)); width: 90%; height: auto; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;
         display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;
       }
       /* tấm nền sắc nét (thay lớp mờ), cùng phong cách khung tải trên máy tính – che banner chữ Trung trong ảnh nền */
@@ -352,7 +355,7 @@
       .right_share .label { display: none; }
 
       .download_m {
-        position: absolute; bottom: 30px; width: 92cqw;
+        position: absolute; bottom: 30px; width: 92cqw; transform: scale(var(--ui, 1)); transform-origin: 50% 100%;
         display: flex; justify-content: center; gap: 3cqw;
       }
 
