@@ -144,7 +144,7 @@
     .cv_title .big, .cv_title .nd {
       background: linear-gradient(180deg, #fff6dc 0%, #f3d28d 40%, #b98a3e 58%, #f6e0a8 78%, #9c6d2b 100%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
-      -webkit-text-stroke: 1.5px #3a2a10;
+      /* bỏ viền chữ, chỉ giữ bóng đổ */
       filter: drop-shadow(0 3px 0 #1d1405) drop-shadow(0 0 10px rgba(255, 210, 120, .45));
       /* đệm để dấu chồng (Ễ, Ỷ) và dấu nặng (Ệ) nằm trong vùng được tô màu vàng */
       padding: .34em .12em .18em .04em; margin: -.34em -.12em -.18em -.04em;
@@ -203,10 +203,10 @@
       box-shadow: 0 0 16px rgba(60, 170, 255, .45), inset 0 0 14px rgba(95, 195, 255, .2);
     }
     /* Dải băng gốc (cover.png x 130–770, y 185–265) */
-    .rib { position: relative; width: 640px; aspect-ratio: 640 / 80; margin-top: 12px;
-      background: url(img/cover.png) 50% 46.48% / 140.625% auto no-repeat; font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; }
-    .rib .patch { left: 10.6%; top: 15%; width: 78.2%; height: 50%; font-size: 16px;
-      background: linear-gradient(180deg, rgba(8, 46, 110, .96), rgba(10, 54, 122, .96)); text-shadow: 0 0 .4em rgba(90, 190, 255, .9), 0 1px 0 #02142e; }
+    .rib { position: relative; width: 660px; aspect-ratio: 660 / 88; margin-top: 12px;
+      background: url(img/ribbon.png) center / 100% 100% no-repeat;   /* dải băng gốc đã xoá hẳn chữ Trung */ font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; }
+    .rib .patch { left: 12.1%; top: 21.6%; width: 75.2%; height: 40.9%; -webkit-mask-image: none; mask-image: none; font-size: 16px;
+      text-shadow: 0 0 .4em rgba(90, 190, 255, .9), 0 1px 0 #02142e; }
     /* nút tải: dùng ảnh nút gốc (265×78) làm nền */
     /* mọi kích thước bên trong tính theo em, với 1em = 1 điểm ảnh của ảnh gốc → co giãn được trên điện thoại */
     .dl2 { position: relative; display: block; width: 265em; height: 78em; font-size: 1px;
@@ -324,12 +324,12 @@
       }
       /* dải băng gốc lấy từ cover.png (x 130–770, y 185–265), phóng theo bề rộng màn hình */
       .rib_m {
-        position: relative; width: 70cqw; aspect-ratio: 640 / 80; margin-top: 1.2cqw;
-        background: url(img/cover.png) 50% 46.48% / 140.625% auto no-repeat;
+        position: relative; width: 72cqw; aspect-ratio: 660 / 88; margin-top: 1.2cqw;
+        background: url(img/ribbon.png) center / 100% 100% no-repeat;
       }
       .rib_m .patch {
-        left: 10.6%; top: 15%; width: 78.2%; height: 50%; font-size: 1.75cqw;
-        background: linear-gradient(180deg, rgba(8, 46, 110, .96), rgba(10, 54, 122, .96));
+        left: 12.1%; top: 21.6%; width: 75.2%; height: 40.9%; -webkit-mask-image: none; mask-image: none; font-size: 1.75cqw;
+        background: none;
         text-shadow: 0 0 .4em rgba(90, 190, 255, .9), 0 1px 0 #02142e;
         font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
       }
@@ -339,8 +339,8 @@
       /* nền không còn chữ Trung → bỏ tấm nền, chữ nằm trực tiếp trên ảnh như bản máy tính */
       .banner_m::before, .banner_m::after { display: none; }
       .banner_m .cv_title { gap: 1.2cqw; }
-      .banner_m .cv_title .big { font-size: 5.2cqw; -webkit-text-stroke-width: .2cqw; }
-      .banner_m .cv_title .nd { font-size: 8.6cqw; -webkit-text-stroke-width: .2cqw; }
+      .banner_m .cv_title .big { font-size: 5.2cqw; }
+      .banner_m .cv_title .nd { font-size: 8.6cqw; }
       .banner_m .cv_sub { font-size: 2.9cqw; margin-top: .4cqw; }
       .banner_m .cv_ribbon { width: 86cqw; font-size: 2.15cqw; padding: 1cqw 0; margin-top: 2cqw; border-width: .3cqw; }
       .banner_m .cv_ribbon .arr { margin: 0 1cqw; }
