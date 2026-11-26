@@ -67,7 +67,7 @@
     #app { width: 100%; min-height: 100vh; position: relative; background: #000; overflow: hidden; }
 
     .main {
-      background: url(img/pc_bg-vi.jpg) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
+      background: url(img/pc_bg-vi.jpg?v=2) center top / cover no-repeat; min-height: 100vh;   /* phủ kín màn hình, không còn nền đen phía dưới */
       position: relative; width: 100%; aspect-ratio: 16 / 9;
       display: flex; justify-content: center; align-items: center; overflow: hidden;
     }
@@ -98,7 +98,7 @@
       -webkit-background-clip: text; background-clip: text; }
     .logo_vi img {
       display: block; width: 100%; height: auto;
-      filter: drop-shadow(0 0 .25cqw rgba(0, 8, 30, .9)) drop-shadow(0 .2cqw .5cqw rgba(0, 10, 40, .5));
+      /* không dùng bóng mờ sau logo */
     }
 
     /* Nhãn độ tuổi CADPA 12+ (dựng lại bằng HTML) */
@@ -275,7 +275,7 @@
     @media (max-width: 1024px) {
       .hidden_m { display: none !important; }
       /* dùng ảnh nền máy tính, cắt phần giữa (ảnh m_bg.jpg có sẵn banner chữ Trung to, phải che bằng tấm nền lớn) */
-      .main { background-image: url(img/pc_bg-vi.jpg); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
+      .main { background-image: url(img/pc_bg-vi.jpg?v=2); background-size: cover; background-position: center top; aspect-ratio: 9 / 16; min-height: 100vh; }
       .age { left: .5rem; top: .5rem; width: 1rem; padding: .03rem; border-radius: .1rem; }
       .age .num { font-size: .34rem; }
       .age .org { font-size: .15rem; }
