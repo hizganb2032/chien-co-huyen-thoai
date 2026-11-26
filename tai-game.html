@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tải game – Chiến Cơ Huyền Thoại</title>
+  <meta name="description" content="Tải Chiến Cơ Huyền Thoại cho Android, iOS, TapTap và HarmonyOS – ông tổ của dòng game bắn máy bay.">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;1,800;1,900&display=swap">
+  <script>
+    // Liên kết tải (giống trang chủ). Khi có bản game / trang cửa hàng riêng, chỉ cần thay ở đây.
+    var LINKS = {
+      android: 'https://tkio-redirect.solar-engine.com/receive/turl/KANwqqa?attribution_type=ua&touchpoint_type=click',
+      apple:   'https://tkio-redirect.solar-engine.com/receive/turl/xsNVKna?attribution_type=ua&touchpoint_type=click',
+      tap:     'https://tkio-redirect.solar-engine.com/receive/turl/ShCFuca?attribution_type=ua&touchpoint_type=click',
+      harmony: 'https://tkio-redirect.solar-engine.com/receive/turl/vaGyPua?attribution_type=ua&touchpoint_type=click'
+    };
+    function isWeChat() { return /MicroMessenger/i.test(navigator.userAgent) || typeof window.weixinBridge !== 'undefined'; }
+    function go(os) {
+      if (isWeChat()) { document.getElementById('wx_tip').style.display = 'flex'; return false; }
+      window.open(LINKS[os]); return false;
+    }
+    // Đánh dấu nút đúng nền tảng khi đến từ trang chủ (tai-game.html#android …)
+    function markFocus() {
+      var os = (location.hash || '').slice(1);
+      document.querySelectorAll('.dl2').forEach(function (el) { el.classList.toggle('focus', el.getAttribute('data-os') === os); });
+    }
+    window.addEventListener('DOMContentLoaded', markFocus);
+    window.addEventListener('hashchange', markFocus);
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #05080f; color: #dfe8f5; font-family: "Be Vietnam Pro", "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Thanh trên cùng */
+    .topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 20px; background: rgba(5, 10, 24, .92); border-bottom: 1px solid rgba(95, 195, 255, .25); backdrop-filter: blur(6px); }
+    .topbar img { height: 40px; display: block; }
+    .topbar nav a { margin-left: 18px; font-weight: 700; font-size: 15px; color: #cfe6ff; }
+    .topbar nav a:hover, .topbar nav a.on { color: #5fc3ff; }
+
+    /* Khu vực đầu trang */
+    .hero { position: relative; min-height: 640px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding: 40px 16px 48px; text-align: center; overflow: hidden;
+      background: url(img/pc_bg-vi.jpg) center 20% / cover no-repeat; }
+    .hero::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(5, 8, 15, .15) 0%, rgba(5, 8, 15, .25) 45%, rgba(5, 8, 15, .92) 85%, #05080f 100%); }
+    .hero > * { position: relative; z-index: 1; }
+    .hero .logo { width: min(420px, 80vw); filter: drop-shadow(0 4px 10px rgba(0, 8, 30, .8)); }
+    .hero h1 { margin-top: 14px; font-size: clamp(26px, 4.4vw, 44px); font-weight: 900; font-style: italic; letter-spacing: .02em;
+      background: linear-gradient(180deg, #fff6dc 0%, #f3d28d 40%, #b98a3e 58%, #f6e0a8 78%, #9c6d2b 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      padding: .3em .15em .1em; margin-bottom: -.1em; filter: drop-shadow(0 3px 0 #1d1405); }
+    .hero .sub { margin: 4px 0 26px; font-size: clamp(15px, 2vw, 19px); font-weight: 700; color: #f7e6bf; text-shadow: 0 2px 4px #000; }
+
+    /* Khối tải: mã QR + 4 nút */
+    .dl_box { display: flex; align-items: center; gap: 26px; padding: 20px 26px; border-radius: 14px;
+      background: rgba(6, 18, 46, .72); border: 1px solid rgba(95, 195, 255, .45);
+      box-shadow: 0 0 24px rgba(40, 150, 255, .25), inset 0 0 20px rgba(60, 160, 255, .15); }
+    .qr { position: relative; width: 176px; height: 170px; flex: none;
+      background: url(img/cover.png) -98px -290px / 900px 478px no-repeat; }
+    .qr span { position: absolute; left: 14px; top: 137px; width: 148px; height: 27px; display: flex; align-items: center; justify-content: center;
+      background: #1c56a5; color: #fff; font-size: 13.5px; font-weight: 800; }
+    .grid { display: grid; grid-template-columns: repeat(2, auto); gap: 14px 18px; }
+
+    /* Nút tải: ảnh nút gốc 265×78, chữ Trung được che bằng miếng vá chữ Việt (giống trang chủ) */
+    .dl2 { position: relative; display: block; width: 265em; height: 78em; font-size: 1px;
+      background: center / 100% 100% no-repeat; transition: transform .15s, filter .15s; }
+    .dl2:hover { transform: translateY(-2px); filter: brightness(1.15); }
+    .dl2.focus { filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 220, 120, .9)); }
+    .dl2.android { background-image: url(img/android.png); }
+    .dl2.apple   { background-image: url(img/appstore.png); }
+    .dl2.tap     { background-image: url(img/download_t.png); }
+    .dl2.harmony { background-image: url(img/harmony.png); }
+    .patch { position: absolute; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; white-space: nowrap;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
+    .dl2.android .patch { left: 38.87%; top: 26.92%; width: 43.77%; height: 48.72%; font-size: 18em;
+      background: linear-gradient(180deg, #2a1712, #1b1219); text-shadow: 0 0 .45em rgba(255, 150, 40, .9); }
+    .dl2.apple .patch { left: 38.49%; top: 51.28%; width: 18.87%; height: 23.08%; font-size: 12em; justify-content: flex-start; padding-left: .5em;
+      background: #330a3d; text-shadow: 0 0 .5em rgba(200, 110, 255, .9); }
+    .dl2.tap .patch { left: 58.49%; top: 30.77%; width: 24.91%; height: 39.74%; font-size: 15em;
+      background: linear-gradient(180deg, #0b3d4b, #05293a); text-shadow: 0 0 .45em rgba(60, 240, 220, .9); }
+    .dl2.harmony .patch { left: 38.49%; top: 26.92%; width: 48.3%; height: 48.72%; font-size: 15.5em;
+      background: linear-gradient(180deg, #06306a, #021f52); text-shadow: 0 0 .5em rgba(80, 170, 255, .9); }
+
+    /* Các mục nội dung */
+    section { max-width: 1080px; margin: 0 auto; padding: 46px 20px 10px; }
+    h2 { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 18px; }
+    h2::before { content: ""; width: 6px; height: 26px; border-radius: 3px; background: linear-gradient(180deg, #5fc3ff, #1a5fd6); box-shadow: 0 0 10px rgba(95, 195, 255, .8); }
+    .intro { font-size: 16.5px; color: #c9d6e8; }
+    .intro b { color: #f3d28d; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .card { padding: 18px 16px; border-radius: 12px; background: linear-gradient(180deg, #0d1a3a, #0a1328);
+      border: 1px solid rgba(95, 195, 255, .25); }
+    .card .ic { font-size: 28px; line-height: 1; }
+    .card h3 { margin: 10px 0 6px; font-size: 16.5px; color: #fff; }
+    .card p { font-size: 14.5px; color: #aebbd0; }
+    .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .step { padding: 18px 20px; border-radius: 12px; background: #0b1428; border-left: 4px solid #5fc3ff; }
+    .step.android { border-color: #ff9a3c; } .step.apple { border-color: #b76cff; } .step.tap { border-color: #2fe0c8; } .step.harmony { border-color: #4f9cff; }
+    .step h3 { font-size: 17px; color: #fff; margin-bottom: 6px; }
+    .step ol { padding-left: 20px; font-size: 14.5px; color: #c2cfe2; }
+    .step li { margin: 3px 0; }
+    .back { display: block; width: max-content; margin: 34px auto 0; padding: 10px 26px; border-radius: 999px; font-weight: 800;
+      background: linear-gradient(180deg, #4fb8ff, #1a5fd6); color: #fff; box-shadow: 0 0 14px rgba(60, 160, 255, .6); }
+    .footer { min-height: 90px; }
+
+    /* Hướng dẫn khi mở trong WeChat */
+    .wx_tip { position: fixed; inset: 0; z-index: 99; display: none; flex-direction: column; align-items: center; justify-content: flex-start;
+      padding: 80px 24px; background: rgba(0, 0, 0, .9); color: #fff; text-align: center; font-size: 17px; }
+    .wx_tip b { font-size: 22px; color: #5fc3ff; margin-bottom: 10px; }
+
+    /* Điện thoại */
+    @media (max-width: 760px) {
+      .topbar img { height: 32px; }
+      .topbar nav a { margin-left: 12px; font-size: 14px; }
+      .hero { min-height: 560px; background-position: 50% 0; }
+      .dl_box { flex-direction: column; gap: 16px; padding: 16px 12px; width: 100%; }
+      .qr { display: none; }   /* như trang chủ: điện thoại không cần mã QR */
+      .grid { gap: 10px; }
+      .dl2 { font-size: calc(43vw / 265); }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a href="chien-co-huyen-thoai.html"><img src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại"></a>
+    <nav><a href="chien-co-huyen-thoai.html">Trang chủ</a><a href="tai-game.html" class="on">Tải game</a></nav>
+  </header>
+
+  <div class="hero">
+    <img class="logo" src="img/logo.png?v=2" alt="Chiến Cơ Huyền Thoại">
+    <h1>TẢI GAME CHIẾN CƠ HUYỀN THOẠI</h1>
+    <p class="sub">Ông tổ của dòng game bắn máy bay – Tượng đài trở lại, tái chiến dải Ngân Hà!</p>
+    <div class="dl_box" id="tai">
+      <div class="qr"><span>Quét mã tải game</span></div>
+      <div class="grid">
+        <a class="dl2 android" data-os="android" href="#" onclick="return go('android')" title="Tải cho Android"><span class="patch">Tải Android</span></a>
+        <a class="dl2 tap" data-os="tap" href="#" onclick="return go('tap')" title="Tải qua TapTap"><span class="patch">Tải về</span></a>
+        <a class="dl2 apple" data-os="apple" href="#" onclick="return go('apple')" title="Tải trên App Store"><span class="patch">Tải về</span></a>
+        <a class="dl2 harmony" data-os="harmony" href="#" onclick="return go('harmony')" title="Tải cho HarmonyOS"><span class="patch">Tải HarmonyOS</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Giới thiệu</h2>
+    <p class="intro"><b>Chiến Cơ Huyền Thoại</b> là game bắn máy bay màn hình dọc kinh điển được làm mới. Điều khiển chiến cơ, né làn đạn dày đặc, hạ gục trùm khổng lồ và cùng đồng đội tái chiến dải Ngân Hà. Đang diễn ra <b>Đại lễ kỷ niệm 2 năm</b> – chinh phục biển sao, ta cùng đồng hành!</p>
+  </section>
+
+  <section>
+    <h2>Điểm nổi bật</h2>
+    <div class="cards">
+      <div class="card"><div class="ic">✈️</div><h3>Bắn máy bay kinh điển</h3><p>Lối chơi màn hình dọc quen thuộc, điều khiển một tay, càng chơi càng cuốn.</p></div>
+      <div class="card"><div class="ic">🚀</div><h3>Chiến cơ đa dạng</h3><p>Sưu tầm và nâng cấp chiến cơ: Thần Phong Đêm Tối, Ma Thần Luyện Ngục, Tro Tàn Ngân Hà…</p></div>
+      <div class="card"><div class="ic">👩‍🚀</div><h3>Phi công cá tính</h3><p>Đồng hành cùng Lia, Natalie, Mirna, Lisa, Blade, Roy và nhiều phi công khác.</p></div>
+      <div class="card"><div class="ic">⚔️</div><h3>Đấu trường &amp; sự kiện</h3><p>Thử sức ở Đấu Trường Ác Nhân và các sự kiện kỷ niệm với nhiều phần thưởng.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Hướng dẫn cài đặt</h2>
+    <div class="steps">
+      <div class="step android"><h3>Android</h3><ol>
+        <li>Bấm <b>Tải Android</b>, file cài đặt (.apk) sẽ được tải về máy.</li>
+        <li>Mở file vừa tải trong mục <b>Tải xuống</b>.</li>
+        <li>Nếu máy hỏi, cho phép <b>Cài đặt ứng dụng không rõ nguồn gốc</b> cho trình duyệt.</li>
+        <li>Bấm <b>Cài đặt</b>, xong mở game và đăng nhập.</li>
+      </ol></div>
+      <div class="step apple"><h3>iPhone / iPad (App Store)</h3><ol>
+        <li>Bấm nút <b>App Store – Tải về</b>.</li>
+        <li>Trang game trên App Store sẽ mở ra, bấm <b>Nhận</b> để cài.</li>
+        <li>Nếu App Store báo không có ở khu vực của bạn, cần đổi khu vực tài khoản Apple ID.</li>
+      </ol></div>
+      <div class="step tap"><h3>TapTap</h3><ol>
+        <li>Bấm nút <b>TapTap – Tải về</b>.</li>
+        <li>Trang game trên TapTap sẽ mở ra, bấm <b>Tải về</b> hoặc mở bằng ứng dụng TapTap.</li>
+      </ol></div>
+      <div class="step harmony"><h3>HarmonyOS (Huawei)</h3><ol>
+        <li>Bấm <b>Tải HarmonyOS</b>.</li>
+        <li>Trang game trên AppGallery sẽ mở ra, bấm <b>Cài đặt</b>.</li>
+      </ol></div>
+    </div>
+    <a class="back" href="chien-co-huyen-thoai.html">← Về trang chủ</a>
+  </section>
+
+  <div class="footer"></div>
+
+  <div class="wx_tip" id="wx_tip" onclick="this.style.display='none'">
+    <b>Mở bằng trình duyệt để tải game</b>
+    <p>1. Nhấn menu ··· ở góc trên bên phải<br>2. Chọn <b style="font-size:inherit">Mở bằng trình duyệt</b></p>
+    <p style="margin-top:20px;opacity:.7;font-size:14px">Chạm vào màn hình để quay lại</p>
+  </div>
+</body>
+</html>
